@@ -1,0 +1,83 @@
+//Mixins
+.clear{
+    clear: both;
+    width: 100%;
+    float: none;
+    display: block;
+}
+//Transitions and effects
+.ease{
+    -webkit-transition: all 850ms ease-in-out;
+    -moz-transition: all 850ms ease-in-out;
+    -o-transition: all 850ms ease-in-out;
+    transition: all 850ms ease-in-out;
+}
+
+.ease_slow{
+    -webkit-transition: all 1500ms ease-in-out;
+    -moz-transition: all 1500ms ease-in-out;
+    -o-transition: all 1500ms ease-in-out;
+    transition: all 1500ms ease-in-out;
+}
+
+.ease_slower{
+    -webkit-transition: all 1800ms ease-in-out;
+    -moz-transition: all 1800ms ease-in-out;
+    -o-transition: all 1800ms ease-in-out;
+    transition: all 1800ms ease-in-out;
+}
+
+.ease_slowest{
+    -webkit-transition: all 2100ms ease-in-out;
+    -moz-transition: all 2100ms ease-in-out;
+    -o-transition: all 2100ms ease-in-out;
+    transition: all 2100ms ease-in-out;
+}
+
+.ease_fast{
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.ease_faster{
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.ease_bg{
+    transition: background-image 850ms ease-in-out;
+}
+
+//Fonts
+.font_normal{
+    font-family: 'MontserratLight';
+}
+.font_bold{
+    font-family: 'Montserrat';
+}
+.font_thin{
+    font-family: 'MontserratHairline';
+}
+
+//Colors
+@Epclusa_Brilliant_Jade: #35C4AF; 
+@Epclusa_Stone_Blue: #4F758B; 
+@Epclusa_Fresh_Sunlight: #ED8B00; 
+@Gilead_Grey: #54565B; 
+@Epclusa_Gray: #909090; 
+@Epclusa_Light_Gray: #b4b4b4; 
+
+//bg gradient
+.bg_gradient{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fbfaf3+0,ffffff+47,ffffff+99 */
+    background: #fbfaf3; /* Old browsers */
+    background: -moz-linear-gradient(left,  #fbfaf3 0%, #ffffff 47%, #ffffff 99%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #fbfaf3 0%,#ffffff 47%,#ffffff 99%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #fbfaf3 0%,#ffffff 47%,#ffffff 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbfaf3', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+}

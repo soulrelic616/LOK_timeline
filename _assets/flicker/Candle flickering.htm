@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)http://lakmeer.github.io/jquery-flickerer/demo.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <title>Candle flickering</title>
+        <style>
+            html { background: #002; }
+            .candles { width: 200px; margin: 100px auto 0; }
+            .candle  { width: 40px; height: 40px; display: inline-block; margin: 10px; background: #ed0; border-radius: 50%; }
+            .huge    { width: 170px; height: 170px; }
+        </style>
+    <style type="text/css"></style></head>
+    <body>
+        <div class="candles">
+            <div class="candle" style="-webkit-transition: opacity 0.1s linear; transition: opacity 0.1s linear; opacity: 0.5759012375259772;"></div>
+            <div class="candle" style="-webkit-transition: opacity 0.1s linear; transition: opacity 0.1s linear; opacity: 0.4653827756992541;"></div>
+            <div class="candle" style="-webkit-transition: opacity 0.1s linear; transition: opacity 0.1s linear; opacity: 0.5516117035178467;"></div>
+            <div class="candle huge" style="-webkit-transition: opacity 0.1s linear; transition: opacity 0.1s linear; opacity: 0.49732751221163196;"></div>
+            <div class="candle" style="-webkit-transition: opacity 0.1s linear; transition: opacity 0.1s linear; opacity: 0.4263640455843415;"></div>
+            <div class="candle" style="-webkit-transition: opacity 0.1s linear; transition: opacity 0.1s linear; opacity: 0.7613244859676342;"></div>
+            <div class="candle" style="-webkit-transition: opacity 0.1s linear; transition: opacity 0.1s linear; opacity: 0.4397970338526647;"></div>
+        </div>
+        <script src="./Candle flickering_files/jquery.min.js"></script>
+        <script src="./Candle flickering_files/flicker.js"></script>
+        <script>
+
+            // Some presets
+            var preset = {
+
+                candle : {
+                    flickerRate    : 10,
+                    spread         : 0.3,
+                    spikeFrequency : 0.05
+                },
+
+                fire : {
+                    flickerRate    : 30,
+                    average        : 3,
+                    spread         : 0.5,
+                    offset         : 0.5,
+                    cssSmooth      : false,
+                    spikeFrequency : 0.2
+                },
+
+                firefly : {
+                    flickerRate    : 5,
+                    average        : 3,
+                    spread         : 0.4,
+                    offset         : 0.4,
+                    spikeFrequency : 0.0
+                }
+
+            }
+
+            // Usage
+            $('.candle').flicker( preset.candle );
+
+        </script>
+    
+
+<iframe id="rdbIndicator" width="100%" height="270" border="0" src="./Candle flickering_files/indicator.htm" style="display: none; border: 0; position: fixed; left: 0; top: 0; z-index: 2147483647"></iframe></body></html>
