@@ -1,6 +1,12 @@
 //@import url(./resets.less);
 @import url(./mixins.less);
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+
+//mixins
+
+@golden: #daa520;
 
 
 html, body, div, span, applet, object, iframe,
@@ -76,6 +82,7 @@ table {
 
 h1, h2, h3, h4{
     font-weight: normal;
+    color: @golden;
 }
 
 h2{
@@ -107,11 +114,27 @@ html, body{
 body{
     background: url(/images/bg-concept.jpg) bottom center repeat-x #000;
 	font-family: 'open_sansregular', Arial, Helvetica, sans-serif;
+    font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: normal;
 	color: #CCC;
+    font-size: 15px;
 }
 
 nav{
     height: 200px;
+    display: flex;
+    justify-content: center;
+    padding: 100px;
+    padding-top: 50px;
+    #logo{
+        width: 900px;
+        height: 150px;
+        background: url('/images/final-logo.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 }
 
 section#container{
@@ -121,6 +144,12 @@ section#container{
     margin: 0 auto;
     //padding-top: 200px;
     position: relative;
+
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+
 }
 div.scrollarea{
     position: absolute;
@@ -133,6 +162,7 @@ div.scrollarea{
 main{
     width: 100%;
     margin: 0 auto;
+    padding-top: 50px;
     //display: flex;
     padding-left: 100px;
 }
@@ -188,7 +218,7 @@ ul#timeline{
             margin-top: 80px;
         }
         b{
-            font-family: open_sansbold;
+            font-weight: 700;
         }
         &.visible{
             opacity: 1;
