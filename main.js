@@ -112,11 +112,16 @@ function revealElems(elems) {
                 offset: 0, // start a little later
                 triggerHook: 0.53,
             })
-            .setClassToggle(elems[i], "visible") // add class toggle
-            .addIndicators({
-                name: "digit " + (i + 1)
-            }) // add indicators (requires plugin)
+            //.setClassToggle(elems[i], "visible") // add class toggle
+            // .addIndicators({
+            //     name: "digit " + (i + 1)
+            // }) // add indicators (requires plugin)
             .addTo(controller)
+            .on("enter" , function(e){
+                e.target.triggerElement().classList.add("visible");
+                //updateDivHeight("#stream"); // Update height of target div on enter
+                drawLine();
+            })
             .on("progress", function (e) {
                 var scrollDirection = e.target.controller().info("scrollDirection");
                 //console.log(i)
@@ -125,6 +130,53 @@ function revealElems(elems) {
             })
     }
 }
+
+// Function to update the height of the target div
+function updateDivHeight(targetDiv) {
+    var totalHeight = 0;
+    
+    $("ul#timeline li.visible").each(function() {
+        totalHeight += $(this).outerHeight(true); // Add the outer height of each visible item
+    });
+    console.log(totalHeight);
+    // Set the height of the target div
+    console.log(targetDiv);
+    $(targetDiv).find('.line').css('height', totalHeight + 'px'); // Update height using jQuery
+}
+
+function drawLine() {
+    var totalHeight = 0;
+    var visibles = $("ul#timeline li.visible").length - 1;
+
+    
+    $("ul#timeline li.visible").each(function (index) {
+        if (index == visibles) {
+            return false;
+        }
+        totalHeight += $(this).outerHeight(true);
+    });
+    //console.log(totalHeight)
+    $("#stream .line").css(
+        "height",
+        totalHeight + 25 + "px"
+    );
+}
+
+
+
+
+$(".scrollarea").scroll(function () {
+
+    drawLine();
+
+    var scrolling = true;
+    clearTimeout(scrollTimeout);
+    var scrollTimeout = setTimeout(function () {
+        drawLine();
+        scrolling = false;
+        clearTimeout(scrollTimeout);
+    }, 500);
+});
 
 // class Smoke {
 

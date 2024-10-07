@@ -1,5 +1,5 @@
 //@import url(./resets.less);
-//@import url(./mixins.less);
+@import url(./mixins.less);
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
 
 
@@ -153,20 +153,22 @@ div#stream{
     .line{
         background:url(/images/TL_mainbg.png) repeat-y;
         width:81px;
-        flex: 1;
+        .ease_fast;
+        //flex: 1;
     }
 
-    &:before, &:after{
-        content: '';
-        width: 81px;
-        position: relative;
-    }
+    // &:before, &:after{
+    //     content: '';
+        
+    // }
 
     &:before{
         content: '';
         background:url(/images/TL_start.png) no-repeat;
 	    height:218px;
         width: 100%;
+        width: 81px;
+        position: relative;
     }
     // &:after{
     //     background:url(/images/TL_end.png) no-repeat;
@@ -180,11 +182,16 @@ ul#timeline{
     //margin-bottom: 2000px;
     li{
         margin-bottom: 45px;
+        opacity: 0;
+        .ease_fast;
         h3{
             margin-top: 80px;
         }
         b{
             font-family: open_sansbold;
+        }
+        &.visible{
+            opacity: 1;
         }
     }
 }
