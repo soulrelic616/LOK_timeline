@@ -29,7 +29,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	line-height: 1;
+	line-height: 1.5;
 }
 ol, ul {
 	list-style: none;
@@ -88,39 +88,58 @@ h3{
 }
 
 
-body, html{
-    height: 100%; /* Ensure the body takes up the full height */
-    margin: 0; /* Remove default margin */
+// body, html{
+//     height: 100%; /* Ensure the body takes up the full height */
+//     margin: 0; /* Remove default margin */
+//     line-height: 1.5;
+//     //display: flex;
+//     //height: fit-content;
+//     //min-height:100vh
+// }
+
+html, body{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
 }
 
 body{
     background: url(/images/bg-concept.jpg) bottom center repeat-x #000;
 	font-family: 'open_sansregular', Arial, Helvetica, sans-serif;
 	color: #CCC;
-    min-height: 100vh; /* Ensure the body is at least the height of the viewport */
-    margin: 0; /* Remove default margin */
-	//font-size:15px;
-    display: flex;
-    height: fit-content;
+}
+
+nav{
+    height: 200px;
 }
 
 section#container{
-    max-width: 1000px;
+    max-width: 950px;
+    height: 100%;
     display: block;
     margin: 0 auto;
-    padding-top: 200px;
+    //padding-top: 200px;
+    position: relative;
+}
+div.scrollarea{
+    position: absolute;
+    width: 100%;
+    //height: calc(100vh - 200px);
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: overlay;
 }
 main{
     width: 100%;
     margin: 0 auto;
-    display: flex;
+    //display: flex;
+    padding-left: 100px;
 }
 
 div#stream{
-   
-	//padding:25px 45px;
-    position: relative;
-	//margin:0 auto;
+    position: absolute;
+	left: 0;
     min-height: 150px;
 
     display: flex;
@@ -161,8 +180,20 @@ ul#timeline{
     //margin-bottom: 2000px;
     li{
         margin-bottom: 45px;
+        h3{
+            margin-top: 80px;
+        }
         b{
             font-family: open_sansbold;
         }
     }
+}
+
+#marker{
+    position: fixed;
+    top: 50%;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background: white;
 }

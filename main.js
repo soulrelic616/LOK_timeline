@@ -2,7 +2,7 @@
 
 //https://codepen.io/sbrl/pen/zNdqdd (smoke effect threejs)
 
-import "./styles/normalize.css";
+//import "./styles/normalize.css";
 import "./styles/styles.less";
 
 import $ from 'jquery';
@@ -13,6 +13,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 //Scrollmagic
 import ScrollMagic from 'scrollmagic';
+import 'scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators';
 
 //test json data for references list
 var json;
@@ -24,6 +25,11 @@ function loadJSON(reference) {
             json = data;
             console.log(data);
             createTimeline(json)
+
+            revealElements = $("ul#timeline li");
+
+            initializeReveal();
+            revealElems(revealElements);
             return json;
         })
         .fail(function (jqxhr, textStatus, error) {
@@ -67,6 +73,57 @@ function createTimeline(json) {
         // Append the <li> to the <ul>
         $milestones.append($li);
     });
+}
+
+// init controller
+var mainScene;
+var controller = new ScrollMagic.Controller({
+    container: "#container",
+    loglevel: 1,
+});
+
+function initializeReveal() {
+    //draw visible svgs
+    var totalHeight = $("main").outerHeight();
+    console.warn(totalHeight);
+    mainScene = new ScrollMagic.Scene({
+        triggerElement: "main",
+        duration: totalHeight - 550, //position of the END marker (in pixels),
+        triggerHook: -0.1,
+    })
+    .addTo(controller)
+    .addIndicators({
+        name: 'line',
+        indent: 0
+    }) // add indicators (requires plugin)
+    .on("update", function (e) {
+        //console.log(e.target.controller().info("scrollDirection"));
+    })
+}
+
+// build scenes
+var revealElements;
+
+function revealElems(elems) {
+    for (var i = 0; i < elems.length; i++) {
+        // create a scene for each element
+        new ScrollMagic.Scene({
+                triggerElement: elems[i], // y value not modified, so we can use element as trigger as well
+                offset: 0, // start a little later
+                triggerHook: 0.53,
+            })
+            .setClassToggle(elems[i], "visible") // add class toggle
+            .addIndicators({
+                name: "digit " + (i + 1)
+            }) // add indicators (requires plugin)
+            .addTo(controller)
+            .on("progress", function (e) {
+                var scrollDirection = e.target.controller().info("scrollDirection");
+                //console.log(i)
+                //console.log(scrollDirection);
+                //console.log(e.progress.toFixed(3));
+            })
+    }
 }
 
 // class Smoke {
