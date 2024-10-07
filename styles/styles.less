@@ -1,0 +1,168 @@
+//@import url(./resets.less);
+//@import url(./mixins.less);
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+@font-face {
+    font-family: 'open_sansbold';
+    src: url('font/osans/opensans-bold-webfont.eot');
+    src: url('font/osans/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/osans/opensans-bold-webfont.woff') format('woff'),
+         url('font/osans/opensans-bold-webfont.ttf') format('truetype'),
+         url('font/osans/opensans-bold-webfont.svg#open_sansbold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('font/osans/opensans-regular-webfont.eot');
+    src: url('font/osans/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/osans/opensans-regular-webfont.woff') format('woff'),
+         url('font/osans/opensans-regular-webfont.ttf') format('truetype'),
+         url('font/osans/opensans-regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+//Type
+
+h1, h2, h3, h4{
+    font-weight: normal;
+}
+
+h2{
+    font-family: 'Cinzel', serif!important;
+	font-size:30px;
+}
+h3{
+    font-family: 'Cinzel', serif!important;
+	font-size:25px;
+}
+
+
+body, html{
+    height: 100%; /* Ensure the body takes up the full height */
+    margin: 0; /* Remove default margin */
+}
+
+body{
+    background: url(/images/bg-concept.jpg) bottom center repeat-x #000;
+	font-family: 'open_sansregular', Arial, Helvetica, sans-serif;
+	color: #CCC;
+    min-height: 100vh; /* Ensure the body is at least the height of the viewport */
+    margin: 0; /* Remove default margin */
+	//font-size:15px;
+    display: flex;
+    height: fit-content;
+}
+
+section#container{
+    max-width: 1000px;
+    display: block;
+    margin: 0 auto;
+    padding-top: 200px;
+}
+main{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+}
+
+div#stream{
+   
+	//padding:25px 45px;
+    position: relative;
+	//margin:0 auto;
+    min-height: 150px;
+
+    display: flex;
+    flex-flow: column;
+    /* Apply WebKit mask for the fade effect */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+
+    .line{
+        background:url(/images/TL_mainbg.png) repeat-y;
+        width:81px;
+        flex: 1;
+    }
+
+    &:before, &:after{
+        content: '';
+        width: 81px;
+        position: relative;
+    }
+
+    &:before{
+        content: '';
+        background:url(/images/TL_start.png) no-repeat;
+	    height:218px;
+        width: 100%;
+    }
+    // &:after{
+    //     background:url(/images/TL_end.png) no-repeat;
+    //     height:218px;
+    // }
+}
+
+ul#timeline{
+    list-style: none;   
+    max-width: 800px;
+    //margin-bottom: 2000px;
+    li{
+        margin-bottom: 45px;
+        b{
+            font-family: open_sansbold;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+diff --git a/node_modules/threejs-toys/src/tools/canvasTexture.js b/node_modules/threejs-toys/src/tools/canvasTexture.js
+index d912176..66fa85d 100644
+--- a/node_modules/threejs-toys/src/tools/canvasTexture.js
++++ b/node_modules/threejs-toys/src/tools/canvasTexture.js
+@@ -12,7 +12,10 @@ export default function (params) {
+   canvas.width = config.width
+   canvas.height = config.height
+ 
+-  const ctx = canvas.getContext('2d')
++  const ctx = canvas.getContext('2d');
++
++  // Clear the canvas with a transparent color
++  ctx.clearRect(0, 0, canvas.width, canvas.height);
+ 
+   const texture = new CanvasTexture(ctx.canvas)
+ 
