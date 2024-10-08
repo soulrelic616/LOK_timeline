@@ -66,11 +66,17 @@ function createTimeline(json) {
         // Create an <li> element
         const $li = $("<li></li>").addClass(item.class); // Assign the classes
 
+        // Check if the item has an ID and assign it to the <li>
+        if (item.id) {
+            $li.attr("id", item.id);
+        }
+
         // Check if paradox is true
         if (item.paradox) {
             // If true, wrap the content in an <a> tag
-            const $link = $("<a></a>").html(item.content);
+            const $link = $("<a href="+item.paradox+"></a>").html(item.content);
             $li.append($link);
+            $li.addClass("paradox")
         } else if(item.title){
             const $title = $("<h2></h2>").html(item.content);
             $li.append($title);
