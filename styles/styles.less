@@ -216,14 +216,14 @@ div#stream{
     /* Apply WebKit mask for the fade effect */
     
 
-    .line{
-        background:url(/images/TL_mainbg.png) repeat-y;
-        width:81px;
+    .line {
+        background: url(/images/TL_mainbg.png) repeat-y;
+        width: 81px;
         .ease_fast;
         -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
-    -webkit-mask-size: cover;
-    mask-size: cover;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+        -webkit-mask-size: cover;
+        mask-size: cover;
         //flex: 1;
     }
 
@@ -304,6 +304,33 @@ ul#timeline{
         }
     }
 }
+
+//TEST line overlay
+.event {
+    position: relative;
+    //min-height: 200px;
+
+    &:before {
+        content: '';
+        position: absolute;
+        width: 81px;
+        height: 500%; /* Make the pseudo-element 150% higher than the container */
+        left: -81px; /* Align with the left edge of the li */
+        top: 50%;
+        transform: translateY(-50%);
+        background: url(/images/TL_mainbg.png) repeat-y;
+        mix-blend-mode: difference; /* Blend mode for the overlay effect */
+        z-index: 2; /* Ensure this is above the line */
+        
+        -webkit-mask-image:
+            linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+        mask-image:
+            linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+        -webkit-mask-size: cover;
+        mask-size: cover;
+    }
+}
+
 
 #marker{
     position: fixed;

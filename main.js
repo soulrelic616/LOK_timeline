@@ -70,9 +70,26 @@ function createTimeline(json) {
         if (item.id) {
             $li.attr("id", item.id);
         }
-
         if (item.entry) {
             $li.attr("data-entry", item.entry);
+            $li.addClass(item.entry);
+        }
+
+        // Check if the item has an "image" entry
+        if (item.image) {
+            // Split the image entry by commas to handle multiple images
+            const images = item.image.split(',');
+            // Create a div to hold the images
+            const $imageContainer = $("<div class='image-container'></div>");
+
+            // Loop over each image and create an <img> element
+            images.forEach(imgSrc => {
+                const $img = $("<img>").attr("src", imgSrc.trim());
+                $imageContainer.append($img);
+            });
+
+            // Prepend the image container to the <li> element
+            $li.prepend($imageContainer);
         }
 
         // Check if paradox is true
