@@ -54,28 +54,6 @@ function loadExcel() { // Removed the reference parameter
 
 loadExcel();
 
-// function loadJSON(reference) {
-//     console.log("loaded");
-//     $.getJSON("./json/timeline.json")
-//         .done(function (data) {
-//             json = data;
-//             console.log(data);
-//             createTimeline(json)
-
-//             revealElements = $("ul#timeline li");
-
-//             initializeReveal();
-//             revealElems(revealElements);
-//             return json;
-//         })
-//         .fail(function (jqxhr, textStatus, error) {
-//             var err = textStatus + ", " + error;
-//             console.log("Request Failed: " + err);
-//         });
-// }
-
-// loadJSON();
-
 function createTimeline(json) {
     // Assuming you have a <ul> element with the ID 'milestones' in your HTML
     const $milestones = $("ul#timeline");
@@ -120,10 +98,10 @@ var controller = new ScrollMagic.Controller({
 
 function initializeReveal() {
     //draw visible svgs
-    var totalHeight = $("main").outerHeight();
+    var totalHeight = $("#contents").outerHeight();
     console.warn(totalHeight);
     mainScene = new ScrollMagic.Scene({
-        triggerElement: "main",
+        triggerElement: "#contents",
         duration: totalHeight - 550, //position of the END marker (in pixels),
         triggerHook: -0.1,
     })
