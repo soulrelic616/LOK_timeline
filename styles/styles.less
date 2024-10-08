@@ -118,23 +118,25 @@ nav{
     justify-content: center;
     align-items: center;
     padding: 100px;
+    padding-bottom: 20px;
     padding-top: 50px;
+    opacity: 0;
     #logo{
-        width: 900px;
-        height: 150px;
+        width: calc(900px/1.5);
+        height: calc(150px/1.5);
         background: url('/images/final-logo.png');
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
     }
     ul#games{
-        margin-top: 50px;
+        margin-top: 30px;
         display: flex;
         gap: 25px;
         li{
             font-size: 0;
-            width: 150px;
-            height: 120px;
+            width: calc(150px/1.5);
+            height: calc(120px/1.5);
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -143,7 +145,8 @@ nav{
                 background-image: url('/images/BO1-Logo.png');
             }
             &#BO2{
-                width: 180px;
+                width: 185px;
+                height: 80px;
                 background-image: url('/images/BO2-Logo.png');
             }
             &#SR{
@@ -151,11 +154,11 @@ nav{
                 background-image: url('/images/SR1-Logo.png');
             }
             &#SR2{
-                width: 180px;
+                width: 160px;
                 background-image: url('/images/SR2-Logo.png');
             }
             &#DEF{
-                width: 250px;
+                width: 220px;
                 background-image: url('/images/lok-defiance.png');
             }
         }

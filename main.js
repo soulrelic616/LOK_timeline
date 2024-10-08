@@ -11,6 +11,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 //import { particlesCursor } from 'threejs-toys'
 
+//XLSX
+import * as XLSX from 'xlsx';
+
 //Scrollmagic
 import ScrollMagic from 'scrollmagic';
 import 'scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators';
@@ -18,27 +21,60 @@ import 'scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators';
 //test json data for references list
 var json;
 console.log('Hello');
-function loadJSON(reference) {
+
+function loadExcel() { // Removed the reference parameter
     console.log("loaded");
-    $.getJSON("./json/timeline.json")
-        .done(function (data) {
-            json = data;
-            console.log(data);
-            createTimeline(json)
 
-            revealElements = $("ul#timeline li");
+    // Fetch the Excel file
+    fetch('./content/timeline.xlsx')
+        .then(response => response.arrayBuffer()) // Read it as an ArrayBuffer
+        .then(data => {
+            // Parse the file
+            const workbook = XLSX.read(data, { type: 'array' });
 
+            // Convert the first sheet to JSON
+            const sheetName = workbook.SheetNames[0]; // Get the first sheet's name
+            const sheet = workbook.Sheets[sheetName];
+            json = XLSX.utils.sheet_to_json(sheet);
+
+            console.log(json); // Log the JSON data
+
+            // Run your existing functions with the JSON data
+            createTimeline(json);
+            const revealElements = $("ul#timeline li");
             initializeReveal();
             revealElems(revealElements);
+
             return json;
         })
-        .fail(function (jqxhr, textStatus, error) {
-            var err = textStatus + ", " + error;
-            console.log("Request Failed: " + err);
+        .catch(error => {
+            console.error("Failed to load sheet file:", error);
         });
 }
 
-loadJSON();
+loadExcel();
+
+// function loadJSON(reference) {
+//     console.log("loaded");
+//     $.getJSON("./json/timeline.json")
+//         .done(function (data) {
+//             json = data;
+//             console.log(data);
+//             createTimeline(json)
+
+//             revealElements = $("ul#timeline li");
+
+//             initializeReveal();
+//             revealElems(revealElements);
+//             return json;
+//         })
+//         .fail(function (jqxhr, textStatus, error) {
+//             var err = textStatus + ", " + error;
+//             console.log("Request Failed: " + err);
+//         });
+// }
+
+// loadJSON();
 
 function createTimeline(json) {
     // Assuming you have a <ul> element with the ID 'milestones' in your HTML
