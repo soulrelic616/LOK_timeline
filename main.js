@@ -126,13 +126,13 @@ function revealElems(elems) {
                 offset: 0, // start a little later
                 triggerHook: 0.53,
             })
-            //.setClassToggle(elems[i], "visible") // add class toggle
+            .setClassToggle(elems[i], "visible") // add class toggle
             // .addIndicators({
             //     name: "digit " + (i + 1)
             // }) // add indicators (requires plugin)
             .addTo(controller)
             .on("enter" , function(e){
-                e.target.triggerElement().classList.add("visible");
+                //e.target.triggerElement().classList.add("visible");
                 //updateDivHeight("#stream"); // Update height of target div on enter
                 drawLine();
             })
