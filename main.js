@@ -71,12 +71,21 @@ function createTimeline(json) {
             $li.attr("id", item.id);
         }
 
+        if (item.entry) {
+            $li.attr("data-entry", item.entry);
+        }
+
         // Check if paradox is true
         if (item.paradox) {
             // If true, wrap the content in an <a> tag
             const $link = $("<a href="+item.paradox+"></a>").html(item.content);
             $li.append($link);
             $li.addClass("paradox")
+        } else if (item.travel) {
+            // If true, wrap the content in an <a> tag
+            const $link = $("<a href="+item.travel+"></a>").html(item.content);
+            $li.append($link);
+            $li.addClass("travel")
         } else if(item.title){
             const $title = $("<h2></h2>").html(item.content);
             $li.append($title);
