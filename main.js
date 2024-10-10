@@ -6,6 +6,11 @@
 import "./styles/styles.less";
 
 import $ from 'jquery';
+
+// Attach $ to the window object
+window.$ = $;
+window.jQuery = $; // Optional, in case you want to access jQuery using jQuery
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -44,6 +49,7 @@ function loadExcel() { // Removed the reference parameter
             const revealElements = $("ul#timeline li");
             initializeReveal();
             revealElems(revealElements);
+            handleGames(revealElements);
 
             return json;
         })
@@ -148,20 +154,18 @@ function initializeReveal() {
 }
 
 // build scenes
-var revealElements;
-
 function revealElems(elems) {
     for (var i = 0; i < elems.length; i++) {
         // create a scene for each element
         new ScrollMagic.Scene({
                 triggerElement: elems[i], // y value not modified, so we can use element as trigger as well
                 offset: 0, // start a little later
-                triggerHook: 0.53,
+                triggerHook: 0.60,
             })
             .setClassToggle(elems[i], "visible") // add class toggle
-            // .addIndicators({
-            //     name: "digit " + (i + 1)
-            // }) // add indicators (requires plugin)
+            .addIndicators({
+                name: "digit " + (i + 1)
+            }) // add indicators (requires plugin)
             .addTo(controller)
             .on("enter" , function(e){
                 //e.target.triggerElement().classList.add("visible");
@@ -170,25 +174,52 @@ function revealElems(elems) {
             })
             .on("progress", function (e) {
                 var scrollDirection = e.target.controller().info("scrollDirection");
-                //console.log(i)
-                //console.log(scrollDirection);
-                //console.log(e.progress.toFixed(3));
+            })
+            .on("update", function (e) {
+                //console.log(e.target.controller().info("scrollDirection"));
             })
     }
 }
 
-// Function to update the height of the target div
-function updateDivHeight(targetDiv) {
-    var totalHeight = 0;
-    
-    $("ul#timeline li.visible").each(function() {
-        totalHeight += $(this).outerHeight(true); // Add the outer height of each visible item
-    });
-    console.log(totalHeight);
-    // Set the height of the target div
-    console.log(targetDiv);
-    $(targetDiv).find('.line').css('height', totalHeight + 'px'); // Update height using jQuery
+function handleGames(elems) {
+    for (var i = 0; i < elems.length; i++) {
+        // create a scene for each element
+        new ScrollMagic.Scene({
+                triggerElement: elems[i], // y value not modified, so we can use element as trigger as well
+                offset: 0, // start a little later
+                triggerHook: 0.30,
+            })
+            //.setClassToggle(elems[i], "visible") // add class toggle
+            // .addIndicators({
+            //     name: "gameEvent " + (i + 1),
+            //     indent: 150,
+            //     colorTrigger: "#FFF"
+            // }) // add indicators (requires plugin)
+            .addTo(controller)
+            .on("enter" , function(e){
+                
+            })
+            .on("progress", function (e) {
+                var scrollDirection = e.target.controller().info("scrollDirection");
+                //console.log(e)
+                //console.log(scrollDirection);
+                //console.log(e.progress.toFixed(3));
+                if (e.target.triggerElement().getAttribute("data-entry")) {
+                    var gameEntry = e.target.triggerElement().getAttribute("data-entry");
+                    console.log(gameEntry);
+                    $('nav li').removeClass('active');
+                    $('nav').find('#'+gameEntry).addClass('active');
+                } else{
+                    $('nav li').removeClass('active');
+                }
+            })
+            .on("update", function (e) {
+                //console.log(e.target.controller().info("scrollDirection"));
+                //console.log(e);
+            })
+    }
 }
+
 
 function drawLine() {
     var totalHeight = 0;
@@ -209,6 +240,15 @@ function drawLine() {
 }
 
 
+//Scroll to Event
+function scrollToEvent(event){
+    const offset = 50; // Adjust this value as needed
+    const targetScrollPosition = $("#travel-1").offset().top - $(".scrollarea").offset().top - offset;
+
+    $(".scrollarea").animate({
+        scrollTop: targetScrollPosition + $(".scrollarea").scrollTop() // Add current scroll position
+    }, 2000);
+}
 
 
 $(".scrollarea").scroll(function () {
