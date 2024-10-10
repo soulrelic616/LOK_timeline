@@ -144,10 +144,10 @@ function timelineScene() {
         triggerHook: -0.1,
     })
     .addTo(controller)
-    .addIndicators({
-        name: 'line',
-        indent: 0
-    }) // add indicators (requires plugin)
+    // .addIndicators({
+    //     name: 'line',
+    //     indent: 0
+    // }) // add indicators (requires plugin)
     .on("update", function (e) {
         //console.log(e.target.controller().info("scrollDirection"));
     })
@@ -163,9 +163,9 @@ function revealElems(elems) {
                 triggerHook: 0.60,
             })
             .setClassToggle(elems[i], "visible") // add class toggle
-            .addIndicators({
-                name: "digit " + (i + 1)
-            }) // add indicators (requires plugin)
+            // .addIndicators({
+            //     name: "digit " + (i + 1)
+            // }) // add indicators (requires plugin)
             .addTo(controller)
             .on("enter" , function(e){
                 //e.target.triggerElement().classList.add("visible");
@@ -234,7 +234,7 @@ function drawLine() {
     //console.log(totalHeight)
     $("#stream .line").css(
         "height",
-        totalHeight + 25 + "px"
+        totalHeight + 0 + "px"
     );
 }
 
@@ -425,7 +425,7 @@ $(".scrollarea").scroll(function () {
 
 // Setup
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 const threerenderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#bg'),
     alpha: true // Enable transparency
@@ -434,9 +434,20 @@ const threerenderer = new THREE.WebGLRenderer({
 threerenderer.setPixelRatio(window.devicePixelRatio);
 threerenderer.setSize(window.innerWidth, window.innerHeight);
 threerenderer.setClearColor(0x000000, 0); // Set clear color to transparent
-//camera.position.setZ(100);
-//camera.position.setX(100);
-//camera.position.setY(-2);
+camera.position.setZ(3);
+camera.position.setX(0);
+camera.position.setY(0);
+
+// Function to handle resizing
+function handleResize() {
+    // Update camera aspect ratio and renderer size
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix(); // Update the projection matrix
+    threerenderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// Attach the resize event listener
+window.addEventListener('resize', handleResize);
 
 // Loading Manager
 const loadingManager = new THREE.LoadingManager();
@@ -448,16 +459,30 @@ loadingManager.onLoad = function() {
 };
 
 // Lights
-const ambientLight = new THREE.AmbientLight(0xffffff); // Soft white ambient light
+//const ambientLight = new THREE.AmbientLight(0xffffff); // Soft white ambient light
 //scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(10, 10, 10); // Position the light
-scene.add(directionalLight);
+//scene.add(directionalLight);
 
-const pointLight = new THREE.PointLight(0xff0000, 1, 100); // Red point light
-pointLight.position.set(0, 0, 10); // Position the light
-//scene.add(pointLight);
+// Create a point light with a lower intensity and limited range
+const pointLight = new THREE.PointLight(0xffffff, 20, 10, 1); // Intensity, range, decay
+pointLight.position.set(0, 0, 0); // Position the light near the area you want to highlight
+pointLight.castShadow = true; // Enable shadows for a dramatic effect
+
+// Set shadow properties to control shadow quality
+pointLight.shadow.mapSize.width = 512;
+pointLight.shadow.mapSize.height = 512;
+pointLight.shadow.camera.near = 0.1;
+pointLight.shadow.camera.far = 25;
+
+// Add the point light to the scene
+scene.add(pointLight);
+
+// Optional: Add a very dim ambient light for slight visibility in shadowed areas
+const ambientLight = new THREE.AmbientLight(0x000000, 0.05);
+scene.add(ambientLight);
 
 // Helpers
 // const lightHelper = new THREE.PointLightHelper(pointLight)
@@ -476,8 +501,13 @@ function loadReaver() {
         scene.add(soulReaver);
     
         // Set the position and scale of soulReaver after it's loaded
-        soulReaver.position.set(-5, 0, -6);
-        soulReaver.scale.set(15, 15, 15);
+        soulReaver.position.z = -8;
+        soulReaver.position.x = 5;
+        soulReaver.position.y = 0;
+        soulReaver.scale.set(15, 15, 15); // Scaling the model
+
+        // Make soulReaver face the camera
+        soulReaver.rotation.y = -44.313;
 
         // // Set material properties for each mesh in the model
         // soulReaver.traverse((child) => {
@@ -523,14 +553,16 @@ function moveObjects() {
 
     // Rotate soulReaver if it's defined
     if (soulReaver) {
-        soulReaver.rotation.z += scrollDelta * 0.001;
+        //soulReaver.rotation.z += scrollDelta * 0.001;
         soulReaver.rotation.y += scrollDelta * 0.001;
+        soulReaver.position.y -= scrollDelta * 0.004;
+        console.log(soulReaver.rotation.y);
     }
 
     // Update camera position and rotation based on scroll
     // camera.position.z = scrollTop * -0.01;
     // camera.position.x = scrollTop * -0.0002;
-    camera.rotation.y = scrollTop * -0.0002;
+    //camera.rotation.y = scrollTop * -0.0002;
 
     // Update the previous scroll position
     previousScrollTop = scrollTop;
