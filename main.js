@@ -47,7 +47,7 @@ function loadExcel() { // Removed the reference parameter
             // Run your existing functions with the JSON data
             createTimeline(json);
             const revealElements = $("ul#timeline li");
-            initializeReveal();
+            timelineScene();
             revealElems(revealElements);
             handleGames(revealElements);
 
@@ -134,7 +134,7 @@ var controller = new ScrollMagic.Controller({
     loglevel: 1,
 });
 
-function initializeReveal() {
+function timelineScene() {
     //draw visible svgs
     var totalHeight = $("#contents").outerHeight();
     console.warn(totalHeight);
@@ -220,7 +220,6 @@ function handleGames(elems) {
     }
 }
 
-
 function drawLine() {
     var totalHeight = 0;
     var visibles = $("ul#timeline li.visible").length - 1;
@@ -239,7 +238,6 @@ function drawLine() {
     );
 }
 
-
 //Scroll to Event
 function scrollToEvent(event){
     const offset = 50; // Adjust this value as needed
@@ -249,7 +247,6 @@ function scrollToEvent(event){
         scrollTop: targetScrollPosition + $(".scrollarea").scrollTop() // Add current scroll position
     }, 2000);
 }
-
 
 $(".scrollarea").scroll(function () {
 
@@ -427,7 +424,7 @@ $(".scrollarea").scroll(function () {
 
 
 // Setup
-/* const scene = new THREE.Scene();
+const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const threerenderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#bg'),
@@ -437,21 +434,22 @@ const threerenderer = new THREE.WebGLRenderer({
 threerenderer.setPixelRatio(window.devicePixelRatio);
 threerenderer.setSize(window.innerWidth, window.innerHeight);
 threerenderer.setClearColor(0x000000, 0); // Set clear color to transparent
-camera.position.setZ(30);
-camera.position.setX(-3);
+//camera.position.setZ(100);
+//camera.position.setX(100);
+//camera.position.setY(-2);
 
 // Loading Manager
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = function() {
     // Everything is loaded, start rendering
-    document.body.onscroll = moveCamera;
-    moveCamera();
+    document.body.onscroll = moveObjects;
+    moveObjects();
     animate();
 };
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff); // Soft white ambient light
-scene.add(ambientLight);
+//scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(10, 10, 10); // Position the light
@@ -459,7 +457,7 @@ scene.add(directionalLight);
 
 const pointLight = new THREE.PointLight(0xff0000, 1, 100); // Red point light
 pointLight.position.set(0, 0, 10); // Position the light
-scene.add(pointLight);
+//scene.add(pointLight);
 
 // Helpers
 // const lightHelper = new THREE.PointLightHelper(pointLight)
@@ -470,71 +468,72 @@ scene.add(pointLight);
 
 // Avatar
 const loader = new GLTFLoader(loadingManager);
-let classicMac;
+let soulReaver;
 
-function loadMac(){
-    loader.load('/models/mac.gltf', function(gltf) {
-        classicMac = gltf.scene;
-        scene.add(classicMac);
+function loadReaver() {
+    loader.load('/model/reaver.gltf', function(gltf) {
+        soulReaver = gltf.scene;
+        scene.add(soulReaver);
     
-        // Set the position and scale of classicMac after it's loaded
-        classicMac.position.z = -5;
-        classicMac.position.x = 2;
-        classicMac.scale.set(10, 10, 10); // Scaling the model
-        
-        // Make classicMac face the camera
-        classicMac.rotation.y = Math.PI; // 180 degrees
-    
-        // List all meshes
-        classicMac.traverse((child) => {
-            if (child.isMesh) {
-                console.log(`Mesh name: ${child.name}`);
-    
-                // Make the material more reflective
-                child.material.metalness = 0.2;
-                child.material.roughness = 0.5;
-                //child.material.envMap = envMap; // Apply environment map for reflections
-                child.material.needsUpdate = true;
-            }
-        });
-    
-        // Add the scroll event listener after classicMac is loaded
-        document.body.onscroll = moveCamera;
-        moveCamera();
-    
-        // Call the function to initialize the video texture
-        //initVideoTexture();
+        // Set the position and scale of soulReaver after it's loaded
+        soulReaver.position.set(-5, 0, -6);
+        soulReaver.scale.set(15, 15, 15);
+
+        // // Set material properties for each mesh in the model
+        // soulReaver.traverse((child) => {
+        //     if (child.isMesh) {
+        //         child.material.metalness = 0.2;
+        //         child.material.roughness = 0.5;
+        //         child.material.needsUpdate = true;
+        //     }
+        // });
+
+        // Reference the scrollable div using querySelector
+        const scrollableDiv = document.querySelector('.scrollarea');
+        if (!scrollableDiv) {
+            console.error('Scrollable element .scrollarea not found');
+            return;
+        }
+
+        // Confirm scrollableDiv is scrollable
+        scrollableDiv.style.overflowY = 'scroll';
+        scrollableDiv.style.height = '500px'; // Set appropriate height for scrolling
+
+        // Add the scroll event listener to the scrollable div
+        scrollableDiv.addEventListener('scroll', moveObjects);
+        moveObjects();
+
     }, undefined, function(error) {
         console.error(error);
     });
 }
-loadMac();
+loadReaver();
 
 // Scroll Animation
 let previousScrollTop = 0; // Track the previous scroll position
 
-function moveCamera() {
-    const t = document.body.getBoundingClientRect().top;
+function moveObjects() {
+    const scrollableDiv = document.querySelector('.scrollarea');
+    const scrollTop = scrollableDiv.scrollTop;
 
-    // Rotate the moon
-    //moon.rotation.y += 0.030;
+    console.log("Scroll Top:", scrollTop); // Debugging: check scroll position
 
     // Calculate the change in scroll position
-    const scrollDelta = previousScrollTop - t;
+    const scrollDelta = previousScrollTop - scrollTop;
 
-    // Rotate classicMac if it's defined
-    if (classicMac) {
-        classicMac.rotation.z += scrollDelta * 0.001; // Adjust the multiplier as needed for the desired rotation speed
-        classicMac.rotation.y += scrollDelta * 0.001; // Adjust the multiplier as needed for the desired rotation speed
+    // Rotate soulReaver if it's defined
+    if (soulReaver) {
+        soulReaver.rotation.z += scrollDelta * 0.001;
+        soulReaver.rotation.y += scrollDelta * 0.001;
     }
 
-    // Update the camera position and rotation based on scroll
-    camera.position.z = t * -0.01;
-    camera.position.x = t * -0.0002;
-    camera.rotation.y = t * -0.0002;
+    // Update camera position and rotation based on scroll
+    // camera.position.z = scrollTop * -0.01;
+    // camera.position.x = scrollTop * -0.0002;
+    camera.rotation.y = scrollTop * -0.0002;
 
     // Update the previous scroll position
-    previousScrollTop = t;
+    previousScrollTop = scrollTop;
 }
 
 // Animation Loop
@@ -543,11 +542,11 @@ function animate() {
 
     //moon.rotation.y += 0.0005;
 
-	//classicMac.rotation.z += 0.01/Math.PI; //
+	//soulReaver.rotation.z += 0.01/Math.PI; //
 
     // controls.update();
 
     threerenderer.render(scene, camera);
-} */
+}
 
 // No need to call animate() here, it's called in the loading manager's onLoad callback
