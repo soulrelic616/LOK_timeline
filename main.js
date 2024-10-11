@@ -261,6 +261,65 @@ $(".scrollarea").scroll(function () {
     }, 500);
 });
 
+//Audio
+// Select audio element and button
+const audio = document.getElementById('background-audio');
+const toggleButton = document.getElementById('audio-toggle');
+
+// Set initial volume to 0 for fade-in effect
+audio.volume = 0;
+
+// Function to gradually increase volume for fade-in
+function fadeInAudio() {
+    let volume = 0;
+    audio.play();
+    const fadeIn = setInterval(() => {
+        if (volume < 1) {
+            volume += 0.01; // Increment volume
+            audio.volume = Math.min(volume, 1); // Set max volume to 1
+        } else {
+            clearInterval(fadeIn);
+        }
+    }, 200); // Duration of fade-in
+}
+
+// Function to gradually decrease volume for fade-out
+function fadeOutAudio() {
+    let volume = audio.volume;
+    const fadeOut = setInterval(() => {
+        if (volume > 0) {
+            volume -= 0.05; // Decrement volume
+            audio.volume = Math.max(volume, 0);
+        } else {
+            clearInterval(fadeOut);
+            audio.pause(); // Pause audio when volume reaches 0
+            // Remove the line below to prevent jumping back to the start
+            // audio.currentTime = 0; 
+        }
+    }, 200); // Duration of fade-out
+}
+
+// Toggle function for button click
+function toggleAudio() {
+    if (audio.paused) {
+        fadeInAudio();
+        //toggleButton.textContent = "Sound Off 🔈"; // Update to "Sound Off" when playing
+        $(toggleButton).removeClass('muted');
+    } else {
+        fadeOutAudio();
+        //toggleButton.textContent = "Sound On 🔊"; // Update to "Sound On" when paused
+        $(toggleButton).addClass('muted');
+    }
+}
+
+// Call fadeInAudio on page load
+window.addEventListener('load', fadeInAudio);
+
+// Event listener for button click
+toggleButton.addEventListener('click', toggleAudio);
+
+
+
 // class Smoke {
 
 //     constructor(options) {

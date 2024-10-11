@@ -10,8 +10,12 @@
 
 <body>
 
-	<canvas id="bg" style=""></canvas>
-	<!-- <canvas id="cursor"></canvas> -->
+	<audio id="background-audio" loop>
+        <source src="/audio/Kain_Encounter.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+	<canvas id="bg"></canvas>
 
 	<div id="wrapper">
 		<header>
@@ -50,10 +54,7 @@
 		</footer>
 	</div>
 
-
-
-	<div id="app"></div>
-
+	<button id="audio-toggle">🔊</button>
 
 	<script type="module" src="/main.js"></script>
 
