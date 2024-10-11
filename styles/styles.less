@@ -109,71 +109,105 @@ scrollbar {
 }
 
 //Type
-
-h1, h2, h3, h4{
+h1,
+h2,
+h3,
+h4 {
     font-weight: normal;
     color: @golden;
 }
 
-h2{
-    font-family: 'Cinzel', serif!important;
-	font-size:30px;
-}
-h3{
-    font-family: 'Cinzel', serif!important;
-	font-size:25px;
+h2 {
+    font-family: 'Cinzel', serif !important;
+    font-size: 30px;
 }
 
-html, body{
+h3 {
+    font-family: 'Cinzel', serif !important;
+    font-size: 25px;
+}
+
+html,
+body {
     width: 100%;
     height: 100%;
     position: absolute;
     overflow: hidden;
 }
 
-body{
+body {
     background: url(/images/bg-concept.jpg) bottom center repeat-x #000;
-	font-family: 'open_sansregular', Arial, Helvetica, sans-serif;
+    font-family: 'open_sansregular', Arial, Helvetica, sans-serif;
     font-family: "Lato", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-	color: #CCC;
+    font-weight: 300;
+    font-style: normal;
+    color: #CCC;
     font-size: 15px;
+    >*{
+        z-index: 1;
+        position: relative;
+    }
 }
 
-main{
+div#wrapper {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+
+main {
     display: flex;
     flex-flow: row;
-    height: 100%;
+    height: 90%;
     z-index: 1;
     position: relative;
     padding: 0 50px;
-    gap: 50px;
+    overflow: hidden;
+    gap: 30px;
     justify-content: center;
-    &:after{
+
+    &:after {
         content: '';
         width: 50px;
     }
 }
 
-header{
+header {
     display: flex;
     flex-flow: column;
     //width: 100%;
-    padding: 50px;
+    padding: 40px;
     align-items: center;
+    padding-bottom: 10px;
 }
 
+footer {
+    height: 100px;
+    display: flex;
+    padding: 30px;
+    justify-content: center;
+    align-items: center;
 
-#logo{
-    width: calc(900px/1.5);
-    height: calc(150px/1.5);
+    small {
+        max-width: 900px;
+        text-align: center;
+    }
+}
+
+small {
+    font-size: 12px;
+}
+
+#logo {
+    width: calc(900px/1.2);
+    height: calc(150px/1.2);
     background: url('/images/final-logo.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
-nav{
+
+nav {
     min-height: 200px;
     display: flex;
     flex-flow: column;
@@ -181,16 +215,19 @@ nav{
     align-items: center;
     padding: 0;
     align-self: start;
+    padding-top: 40px;
+
     //opacity: 0;
-    ul#games{
+    ul#games {
         //margin-top: 30px;
         display: flex;
         flex-flow: column;
         align-items: center;
-        gap: 25px;
-        li{
+        gap: 0;
+
+        li {
             font-size: 0;
-            width: calc(150px/1);
+            width: calc(180px/1);
             height: calc(120px/1);
             background-size: contain;
             background-repeat: no-repeat;
@@ -198,27 +235,33 @@ nav{
             opacity: 0.5;
             filter: saturate(0);
             .ease_fast;
-            &#BO{
+
+            &#BO {
                 background-image: url('/images/BO1-Logo.png');
             }
-            &#BO2{
-                width: 185px;
-                height: 80px;
+
+            &#BO2 {
+                width: 200px;
+                //height: 80px;
                 background-image: url('/images/BO2-Logo.png');
             }
-            &#SR{
+
+            &#SR {
                 width: 180px;
                 background-image: url('/images/SR1-Logo.png');
             }
-            &#SR2{
-                width: 160px;
+
+            &#SR2 {
+                width: 200px;
                 background-image: url('/images/SR2-Logo.png');
             }
-            &#DEF{
+
+            &#DEF {
                 width: 220px;
                 background-image: url('/images/lok-defiance.png');
             }
-            &.active{
+
+            &.active {
                 filter: saturate(1);
                 opacity: 1;
             }
@@ -226,12 +269,12 @@ nav{
     }
 }
 
-section#container{
+section#container {
     flex: 1;
     width: 100%;
     max-width: 900px;
     //height: 300px;
-    height: 80%;
+    height: 100%;
     margin-right: 20%;
     display: block;
     //margin: 0 auto;
@@ -239,17 +282,18 @@ section#container{
     position: relative;
 
     -webkit-mask-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
-mask-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
--webkit-mask-size: cover;
-mask-size: cover;
+        linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    mask-image:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-size: cover;
+    mask-size: cover;
 
 }
-div.scrollarea{
-   //position: absolute;
+
+div.scrollarea {
+    //position: absolute;
     width: 100%;
-    height: 100%!important;
+    height: 100% !important;
     .firefoxScroll;
     //height: calc(100vh - 200px);
     //height: 500px;
@@ -257,7 +301,8 @@ div.scrollarea{
     overflow-y: overlay;
     //padding-left: 100px;
 }
-#contents{
+
+#contents {
     width: 100%;
     margin: 0 auto;
     padding-top: 50px;
@@ -266,15 +311,15 @@ div.scrollarea{
     display: flex;
 }
 
-div#stream{
+div#stream {
     //position: absolute;
-	left: 0;
+    left: 0;
     min-height: 150px;
 
     display: flex;
     flex-flow: column;
     /* Apply WebKit mask for the fade effect */
-    
+
 
     .line {
         background: url(/images/TL_mainbg.png) repeat-y;
@@ -289,50 +334,57 @@ div#stream{
 
     // &:before, &:after{
     //     content: '';
-        
+
     // }
 
-    &:before{
+    &:before {
         content: '';
-        background:url(/images/TL_start.png) no-repeat;
-	    height:218px;
+        background: url(/images/TL_start.png) no-repeat;
+        height: 218px;
         width: 100%;
         width: 81px;
         position: relative;
     }
+
     // &:after{
     //     background:url(/images/TL_end.png) no-repeat;
     //     height:218px;
     // }
 }
 
-ul#timeline{
-    list-style: none;   
+ul#timeline {
+    list-style: none;
     max-width: 800px;
     margin-bottom: 700px;
     padding-right: 40px;
-    li{
+
+    li {
         margin-bottom: 30px;
         opacity: 0;
         .ease_fast;
-        h3{
+
+        h3 {
             //margin-top: 80px;
             color: #CCC;
         }
-        h2{
-            &:before{
+
+        h2 {
+            &:before {
                 content: '‹';
                 margin-right: 10px;
             }
-            &:after{
+
+            &:after {
                 content: '›';
                 margin-left: 10px;
             }
         }
-        a{
+
+        a {
             color: #CCC;
             text-decoration: none;
-            &:after{
+
+            &:after {
                 content: '';
                 background-image: url('/images/paradox-btn-bg.png');
                 width: 50px;
@@ -341,35 +393,42 @@ ul#timeline{
                 background-repeat: no-repeat;
             }
         }
-        b{
+
+        b {
             font-weight: 700;
         }
-        &.visible{
+
+        &.visible {
             opacity: 1;
-            &:before, &:after{
+
+            &:before,
+            &:after {
                 opacity: 1;
                 min-width: 81px;
                 min-height: 81px;
             }
         }
-        &.detail{
+
+        &.detail {
             padding: 0 15px;
-            font-size:12px;
-            color:#9b9b9b;
+            font-size: 12px;
+            color: #9b9b9b;
         }
 
         //hide time travel elements
-        &.time-travel{
+        &.time-travel {
             // opacity: 0;
             // height: 0;
             // margin: 0;
         }
-        &.show{
+
+        &.show {
             opacity: 1;
             min-height: 100px;
         }
 
-        &:before, &:after{
+        &:before,
+        &:after {
             opacity: 0;
             width: 0;
             height: 0;
@@ -387,14 +446,18 @@ ul#timeline{
         content: '';
         position: absolute;
         width: 81px;
-        height: 500%; /* Make the pseudo-element 150% higher than the container */
-        left: -81px; /* Align with the left edge of the li */
+        height: 500%;
+        /* Make the pseudo-element 150% higher than the container */
+        left: -81px;
+        /* Align with the left edge of the li */
         top: 50%;
         transform: translateY(-50%);
         background: url(/images/TL_mainbg.png) repeat-y;
-        mix-blend-mode: difference; /* Blend mode for the overlay effect */
-        z-index: 2; /* Ensure this is above the line */
-        
+        mix-blend-mode: difference;
+        /* Blend mode for the overlay effect */
+        z-index: 2;
+        /* Ensure this is above the line */
+
         -webkit-mask-image:
             linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
         mask-image:
@@ -405,7 +468,7 @@ ul#timeline{
 }
 
 
-#marker{
+#marker {
     position: fixed;
     top: 50%;
     right: 0;
@@ -416,7 +479,7 @@ ul#timeline{
 
 //Canvas BG
 
-canvas#bg{
+canvas#bg {
     position: fixed;
     top: 0;
     left: 0;

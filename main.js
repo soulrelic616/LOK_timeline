@@ -137,7 +137,7 @@ var controller = new ScrollMagic.Controller({
 function timelineScene() {
     //draw visible svgs
     var totalHeight = $("#contents").outerHeight();
-    console.warn(totalHeight);
+    //console.warn(totalHeight);
     mainScene = new ScrollMagic.Scene({
         triggerElement: "#contents",
         duration: totalHeight - 550, //position of the END marker (in pixels),
@@ -160,12 +160,12 @@ function revealElems(elems) {
         new ScrollMagic.Scene({
                 triggerElement: elems[i], // y value not modified, so we can use element as trigger as well
                 offset: 0, // start a little later
-                triggerHook: 0.60,
+                triggerHook: 0.90,
             })
             .setClassToggle(elems[i], "visible") // add class toggle
-            // .addIndicators({
-            //     name: "digit " + (i + 1)
-            // }) // add indicators (requires plugin)
+            .addIndicators({
+                name: "digit " + (i + 1)
+            }) // add indicators (requires plugin)
             .addTo(controller)
             .on("enter" , function(e){
                 //e.target.triggerElement().classList.add("visible");
@@ -498,6 +498,15 @@ let soulReaver;
 function loadReaver() {
     loader.load('/model/reaver.gltf', function(gltf) {
         soulReaver = gltf.scene;
+
+        // Set the initial opacity of the model's material to 0
+        soulReaver.traverse((child) => {
+            if (child.isMesh) {
+                child.material.transparent = true;
+                child.material.opacity = 0;
+            }
+        });
+
         scene.add(soulReaver);
     
         // Set the position and scale of soulReaver after it's loaded
@@ -517,6 +526,21 @@ function loadReaver() {
         //         child.material.needsUpdate = true;
         //     }
         // });
+
+        // Fade-in animation
+        let opacity = 0;
+        const fadeIn = () => {
+            opacity += 0.01;  // Adjust speed by changing the increment
+            soulReaver.traverse((child) => {
+                if (child.isMesh) {
+                    child.material.opacity = Math.min(opacity, 1);
+                }
+            });
+            if (opacity < 1) {
+                requestAnimationFrame(fadeIn);
+            }
+        };
+        fadeIn();
 
         // Reference the scrollable div using querySelector
         const scrollableDiv = document.querySelector('.scrollarea');
