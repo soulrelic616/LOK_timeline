@@ -163,9 +163,9 @@ function revealElems(elems) {
                 triggerHook: 0.90,
             })
             .setClassToggle(elems[i], "visible") // add class toggle
-            .addIndicators({
-                name: "digit " + (i + 1)
-            }) // add indicators (requires plugin)
+            // .addIndicators({
+            //     name: "digit " + (i + 1)
+            // }) // add indicators (requires plugin)
             .addTo(controller)
             .on("enter" , function(e){
                 //e.target.triggerElement().classList.add("visible");
