@@ -526,7 +526,7 @@ directionalLight.position.set(10, 10, 10); // Position the light
 //scene.add(directionalLight);
 
 // Create a point light with a lower intensity and limited range
-const pointLight = new THREE.PointLight(0xffffff, 30, 10.2, 1); // Intensity, range, decay
+const pointLight = new THREE.PointLight(0xffffff, 40, 10.4, 1); // Intensity, range, decay
 pointLight.position.set(0, 0, 0); // Position the light near the area you want to highlight
 pointLight.castShadow = true; // Enable shadows for a dramatic effect
 
