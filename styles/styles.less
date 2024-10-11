@@ -135,6 +135,14 @@ body {
     overflow: hidden;
 }
 
+.reaver-cursor{
+    cursor: url('/cursors/soul_reaver.ico'), auto;
+}
+
+button, a{
+    .reaver-cursor;
+}
+
 body {
     background: url(/images/bg-concept.jpg) bottom center repeat-x #000;
     font-family: 'open_sansregular', Arial, Helvetica, sans-serif;
@@ -255,7 +263,7 @@ nav {
             opacity: 0.5;
             filter: saturate(0);
             .ease_fast;
-
+            .reaver-cursor;
             &#BO {
                 background-image: url('/images/BO1-Logo.png');
                 height: 90px;
