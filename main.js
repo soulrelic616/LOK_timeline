@@ -467,13 +467,13 @@ directionalLight.position.set(10, 10, 10); // Position the light
 //scene.add(directionalLight);
 
 // Create a point light with a lower intensity and limited range
-const pointLight = new THREE.PointLight(0xffffff, 20, 10, 1); // Intensity, range, decay
+const pointLight = new THREE.PointLight(0xffffff, 30, 10.2, 1); // Intensity, range, decay
 pointLight.position.set(0, 0, 0); // Position the light near the area you want to highlight
 pointLight.castShadow = true; // Enable shadows for a dramatic effect
 
 // Set shadow properties to control shadow quality
-pointLight.shadow.mapSize.width = 512;
-pointLight.shadow.mapSize.height = 512;
+pointLight.shadow.mapSize.width = 1024;
+pointLight.shadow.mapSize.height = 1024;
 pointLight.shadow.camera.near = 0.1;
 pointLight.shadow.camera.far = 25;
 
@@ -511,12 +511,13 @@ function loadReaver() {
     
         // Set the position and scale of soulReaver after it's loaded
         soulReaver.position.z = -8;
-        soulReaver.position.x = 5;
+        soulReaver.position.x = 6;
         soulReaver.position.y = 0;
         soulReaver.scale.set(15, 15, 15); // Scaling the model
 
         // Make soulReaver face the camera
-        soulReaver.rotation.y = -44.313;
+        //soulReaver.rotation.y = -44.313;
+        soulReaver.rotation.y = -44.43399999999994;
 
         // // Set material properties for each mesh in the model
         // soulReaver.traverse((child) => {
