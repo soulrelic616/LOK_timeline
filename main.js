@@ -658,3 +658,19 @@ function animate() {
 	threerenderer.render(scene, camera);
 }
 // No need to call animate() here, it's called in the loading manager's onLoad callback
+
+// Select your scrollable div
+const scrollableDiv = document.querySelector('.scrollarea');
+let scrollPosition = 0;
+
+// Listen for wheel events on the window
+window.addEventListener('wheel', (event) => {
+  // Update scroll position based on wheel delta
+  scrollPosition += event.deltaY;
+  
+  // Ensure scroll position stays within the bounds of the div
+  scrollPosition = Math.max(0, Math.min(scrollPosition, scrollableDiv.scrollHeight - scrollableDiv.clientHeight));
+
+  // Set the scroll position of the .scrollarea
+  scrollableDiv.scrollTop = scrollPosition;
+});
