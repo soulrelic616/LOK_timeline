@@ -215,7 +215,7 @@ function handleGames(elems) {
 				//console.log(e.progress.toFixed(3));
 				if (e.target.triggerElement().getAttribute("data-entry")) {
 					var gameEntry = e.target.triggerElement().getAttribute("data-entry");
-					console.log(gameEntry);
+					//console.log(gameEntry);
 					$('nav li').removeClass('active');
 					$('nav').find('#' + gameEntry).addClass('active');
 				} else {
@@ -623,7 +623,7 @@ function moveObjects() {
 	const scrollableDiv = document.querySelector('.scrollarea');
 	const scrollTop = scrollableDiv.scrollTop;
 
-	console.log("Scroll Top:", scrollTop); // Debugging: check scroll position
+	//console.log("Scroll Top:", scrollTop); // Debugging: check scroll position
 
 	// Calculate the change in scroll position
 	const scrollDelta = previousScrollTop - scrollTop;
@@ -632,8 +632,8 @@ function moveObjects() {
 	if (soulReaver) {
 		//soulReaver.rotation.z += scrollDelta * 0.001;
 		soulReaver.rotation.y += scrollDelta * 0.001;
-		soulReaver.position.y -= scrollDelta * 0.005;
-		console.log(soulReaver.rotation.y);
+		soulReaver.position.y -= scrollDelta * 0.004;
+		//console.log(soulReaver.rotation.y);
 	}
 
 	// Update camera position and rotation based on scroll
