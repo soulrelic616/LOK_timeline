@@ -273,35 +273,38 @@ $(".scrollarea").scroll(function () {
 //Audio
 
 // Create a new Howl instance for the background music
+const MAX_VOLUME = 0.2; // Set maximum volume as 0.3
+
 const backgroundMusic = new Howl({
 	src: ['/audio/Kain_Encounter.mp3'],
-	autoplay: true,
+	autoplay: false, // Set to false to prevent autoplay
 	loop: true,
-	volume: 0.3
+	volume: 0 // Start at 0 volume to apply fade-in on first play
 });
 
-// Toggle button handler
 const toggleButton = document.getElementById('audio-toggle');
-let isPlaying = true; // Keep track of play/pause state
+let isPlaying = false; // Initial play state is false
 
-// Trigger music on the first click anywhere in the window
+// Function to start music and apply fade-in
 function startMusic() {
 	backgroundMusic.play();
-	backgroundMusic.fade(0, 0.3, 3000); // Fade in over 3 seconds
+	backgroundMusic.fade(0, MAX_VOLUME, 3000); // Fade in over 3 seconds
 	isPlaying = true;
+	toggleButton.classList.remove('muted'); // Update button class to show unmuted state
 	window.removeEventListener('click', startMusic); // Remove listener after first click
 }
 
 window.addEventListener('click', startMusic);
 
+// Toggle button handler to mute/unmute music
 toggleButton.addEventListener('click', () => {
 	if (isPlaying) {
-		backgroundMusic.fade(0.3, 0, 1000); // Fade out over 1 second
+		backgroundMusic.fade(MAX_VOLUME, 0, 1000); // Fade out over 1 second
 		setTimeout(() => backgroundMusic.pause(), 1000); // Pause after fade-out
 		toggleButton.classList.add('muted'); // Add muted class
 	} else {
 		backgroundMusic.play();
-		backgroundMusic.fade(0, 0.3, 3000); // Fade in over 3 seconds
+		backgroundMusic.fade(0, MAX_VOLUME, 3000); // Fade in over 3 seconds
 		toggleButton.classList.remove('muted'); // Remove muted class
 	}
 	isPlaying = !isPlaying; // Toggle play/pause state
