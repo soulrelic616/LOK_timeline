@@ -629,7 +629,7 @@ function moveObjects() {
 	if (soulReaver) {
 		//soulReaver.rotation.z += scrollDelta * 0.001;
 		soulReaver.rotation.y += scrollDelta * 0.001;
-		soulReaver.position.y -= scrollDelta * 0.004;
+		soulReaver.position.y -= scrollDelta * 0.005;
 		console.log(soulReaver.rotation.y);
 	}
 
