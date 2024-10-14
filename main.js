@@ -62,6 +62,8 @@ function loadExcel() { // Removed the reference parameter
 			revealElems(revealElements);
 			handleGames(revealElements);
 
+			clickAnchors();
+
 			return json;
 		})
 		.catch(error => {
@@ -247,15 +249,80 @@ function drawLine() {
 	);
 }
 
-//Scroll to Event
-function scrollToEvent(event) {
-	const offset = 50; // Adjust this value as needed
-	const targetScrollPosition = $("#travel-1").offset().top - $(".scrollarea").offset().top - offset;
+// Select your scrollable div
+const scrollableDiv = document.querySelector('.scrollarea');
+let scrollPosition = 0;
 
-	$(".scrollarea").animate({
+// Listen for wheel events on the window
+window.addEventListener('wheel', (event) => {
+	// Only allow scrolling if not animating
+	if (!isAnimating) {
+	  // Update scroll position based on wheel delta
+	  scrollPosition += event.deltaY;
+	  
+	  // Ensure scroll position stays within the bounds of the div
+	  scrollPosition = Math.max(0, Math.min(scrollPosition, scrollableDiv.scrollHeight - scrollableDiv.clientHeight));
+  
+	  // Set the scroll position of the .scrollarea
+	  scrollableDiv.scrollTop = scrollPosition;
+	} else {
+	  // Prevent default scrolling if animating
+	  event.preventDefault();
+	}
+  });
+  
+  // Update scrollPosition when the user scrolls the .scrollarea
+  scrollableDiv.addEventListener('scroll', () => {
+	// Update scrollPosition only if not animating
+	if (!isAnimating) {
+	  scrollPosition = scrollableDiv.scrollTop;
+	}
+  });
+  
+  // Scroll to Event
+  function scrollToEvent(destination) {
+	const offset = 100; // Adjust this value as needed
+	const target = $("#" + destination);
+	
+	if (target.length) {
+	  isAnimating = true; // Set animation flag to true
+  
+	  // Calculate the target scroll position
+	  const targetScrollPosition = target.offset().top - $(".scrollarea").offset().top - offset;
+	  
+	  // Animate scrolling within the scrollarea
+	  $(".scrollarea").animate({
 		scrollTop: targetScrollPosition + $(".scrollarea").scrollTop() // Add current scroll position
-	}, 2000);
-}
+	  }, 2000, function() {
+		// Update scrollPosition after animation completes
+		scrollPosition = scrollableDiv.scrollTop;
+		isAnimating = false; // Reset animation flag when done
+	  });
+	} else {
+	  console.error('Target element not found:', destination);
+	}
+  }
+  
+  function clickAnchors() {
+	$('a[href^="#"]').click(function (event) {
+	  // Prevent the default action (navigating to the href)
+	  event.preventDefault();
+  
+	  // Extract the destination from the href
+	  var thisHref = this.href.split('#');
+	  var destination = thisHref[1];
+  
+	  scrollToEvent(destination);
+	});
+  }
+
+//Main menu game entries
+// $('#games li').on('click', function(){
+// 	var thisGame = $(this).data('anchor');
+// 	console.log(thisGame);
+// 	scrollToEvent(thisGame)
+// });
+
 
 $(".scrollarea").scroll(function () {
 
@@ -658,19 +725,3 @@ function animate() {
 	threerenderer.render(scene, camera);
 }
 // No need to call animate() here, it's called in the loading manager's onLoad callback
-
-// Select your scrollable div
-const scrollableDiv = document.querySelector('.scrollarea');
-let scrollPosition = 0;
-
-// Listen for wheel events on the window
-window.addEventListener('wheel', (event) => {
-  // Update scroll position based on wheel delta
-  scrollPosition += event.deltaY;
-  
-  // Ensure scroll position stays within the bounds of the div
-  scrollPosition = Math.max(0, Math.min(scrollPosition, scrollableDiv.scrollHeight - scrollableDiv.clientHeight));
-
-  // Set the scroll position of the .scrollarea
-  scrollableDiv.scrollTop = scrollPosition;
-});
