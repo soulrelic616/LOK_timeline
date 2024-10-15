@@ -252,6 +252,7 @@ function drawLine() {
 // Select your scrollable div
 const scrollableDiv = document.querySelector('.scrollarea');
 let scrollPosition = 0;
+let isAnimating = false; // Flag to track if an animation is happening
 
 // Listen for wheel events on the window
 window.addEventListener('wheel', (event) => {
@@ -293,7 +294,7 @@ window.addEventListener('wheel', (event) => {
 	  // Animate scrolling within the scrollarea
 	  $(".scrollarea").animate({
 		scrollTop: targetScrollPosition + $(".scrollarea").scrollTop() // Add current scroll position
-	  }, 2000, function() {
+	  }, 1000, function() {
 		// Update scrollPosition after animation completes
 		scrollPosition = scrollableDiv.scrollTop;
 		isAnimating = false; // Reset animation flag when done
@@ -304,25 +305,20 @@ window.addEventListener('wheel', (event) => {
   }
   
   function clickAnchors() {
-	$('a[href^="#"]').click(function (event) {
-	  // Prevent the default action (navigating to the href)
-	  event.preventDefault();
-  
-	  // Extract the destination from the href
-	  var thisHref = this.href.split('#');
-	  var destination = thisHref[1];
-  
-	  scrollToEvent(destination);
-	});
+  	$('a[href^="#"]').click(function (event) {
+  		// Prevent the default action (navigating to the href)
+  		event.preventDefault();
+
+  		// Extract the destination from the href
+  		var thisHref = this.href.split('#');
+  		var destination = thisHref[1];
+
+  		scrollToEvent(destination);
+
+		$('.'+destination).addClass('active');
+
+  	});
   }
-
-//Main menu game entries
-// $('#games li').on('click', function(){
-// 	var thisGame = $(this).data('anchor');
-// 	console.log(thisGame);
-// 	scrollToEvent(thisGame)
-// });
-
 
 $(".scrollarea").scroll(function () {
 

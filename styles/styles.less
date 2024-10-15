@@ -483,6 +483,7 @@ ul#timeline {
                 height: auto;
                 opacity: 1;
                 margin-bottom: 30px;
+                overflow: visible;
             }
         }
 
@@ -505,16 +506,16 @@ ul#timeline {
     position: relative;
     min-height: 200px;
 
-    &.tt1{ //timetravel 1 (BO)
-        mix-blend-mode: difference;
+    &.BO:before{ //timetravel 1 (BO)
+        mix-blend-mode: color-burn;
     }
 
     &:before {
         .ease_slow;
         content: '';
         position: absolute;
-        width: 81px;
-        height: 500%;
+        width: 81px!important;
+        height: 300%!important;
         /* Make the pseudo-element 150% higher than the container */
         left: -81px;
         /* Align with the left edge of the li */
@@ -526,9 +527,9 @@ ul#timeline {
         /* Ensure this is above the line */
 
         -webkit-mask-image:
-            linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+            linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 5%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
         mask-image:
-            linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+            linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 5%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
         -webkit-mask-size: cover;
         mask-size: cover;
     }
