@@ -610,17 +610,49 @@ scene.add(ambientLight);
 const loader = new GLTFLoader(loadingManager);
 let soulReaver;
 
+
+//Look here: https://stackoverflow.com/questions/63347147/gltf-exported-from-blender-with-metallic-texture-and-no-roughness-texture-is-loa
 function loadReaver() {
 	loader.load('/model/reaver.gltf', function (gltf) {
 		soulReaver = gltf.scene;
 
-		// Set the initial opacity of the model's material to 0
+		// Load the texture using TextureLoader
+		const textureLoader = new THREE.TextureLoader();
+		const texture = textureLoader.load('/model/combined_texture.png'); // Adjust the path as necessary
+
+		//Set the initial opacity of the model's material to 0
 		soulReaver.traverse((child) => {
 			if (child.isMesh) {
+				//child.material.metalness = 0.015; // Adjust as needed
+				//child.material.roughness = 0.15;  // Adjust as needed
+				//child.material.needsUpdate = true; // Ensure Three.js updates the material
 				child.material.transparent = true;
 				child.material.opacity = 0;
 			}
 		});
+
+		// soulReaver.traverse((child) => {
+        //     if (child.isMesh) {
+        //         child.material.transparent = true;
+        //         child.material.opacity = 0;
+
+        //         // Modify PBR properties for individual materials
+        //         if (Array.isArray(child.material)) {
+        //             // If the mesh has multiple materials
+        //             child.material.forEach((material) => {
+        //                 child.material.metalness = 0.015; // Adjust as needed
+		// 				child.material.roughness = 0.15;  // Adjust as needed
+        //                 material.needsUpdate = true; // Ensure Three.js updates the material
+        //             });
+        //         } else {
+        //             // If the mesh has a single material
+        //             child.material.metalness = 0.015; // Adjust as needed
+		// 			child.material.roughness = 0.15;  // Adjust as needed
+        //             child.material.needsUpdate = true; // Ensure Three.js updates the material
+        //         }
+        //     }
+        // });
+
 
 		scene.add(soulReaver);
 
@@ -633,15 +665,6 @@ function loadReaver() {
 		// Make soulReaver face the camera
 		//soulReaver.rotation.y = -44.313;
 		soulReaver.rotation.y = -44.43399999999994;
-
-		// // Set material properties for each mesh in the model
-		// soulReaver.traverse((child) => {
-		//     if (child.isMesh) {
-		//         child.material.metalness = 0.2;
-		//         child.material.roughness = 0.5;
-		//         child.material.needsUpdate = true;
-		//     }
-		// });
 
 		// Fade-in animation
 		let opacity = 0;
