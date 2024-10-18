@@ -582,7 +582,7 @@ directionalLight.position.set(10, 10, 10); // Position the light
 //scene.add(directionalLight);
 
 // Create a point light with a lower intensity and limited range
-const pointLight = new THREE.PointLight(0xffffff, 40, 10.4, 1); // Intensity, range, decay
+const pointLight = new THREE.PointLight(0xffffff, 40, 10.6, 1); // Intensity, range, decay
 pointLight.position.set(0, 0, 0); // Position the light near the area you want to highlight
 pointLight.castShadow = true; // Enable shadows for a dramatic effect
 
@@ -613,7 +613,7 @@ let soulReaver;
 
 //Look here: https://stackoverflow.com/questions/63347147/gltf-exported-from-blender-with-metallic-texture-and-no-roughness-texture-is-loa
 function loadReaver() {
-	loader.load('/model/reaver.gltf', function (gltf) {
+	loader.load('/model/reaver-3.gltf', function (gltf) {
 		soulReaver = gltf.scene;
 
 		// Load the texture using TextureLoader
@@ -623,35 +623,10 @@ function loadReaver() {
 		//Set the initial opacity of the model's material to 0
 		soulReaver.traverse((child) => {
 			if (child.isMesh) {
-				//child.material.metalness = 0.015; // Adjust as needed
-				//child.material.roughness = 0.15;  // Adjust as needed
-				//child.material.needsUpdate = true; // Ensure Three.js updates the material
 				child.material.transparent = true;
 				child.material.opacity = 0;
 			}
 		});
-
-		// soulReaver.traverse((child) => {
-        //     if (child.isMesh) {
-        //         child.material.transparent = true;
-        //         child.material.opacity = 0;
-
-        //         // Modify PBR properties for individual materials
-        //         if (Array.isArray(child.material)) {
-        //             // If the mesh has multiple materials
-        //             child.material.forEach((material) => {
-        //                 child.material.metalness = 0.015; // Adjust as needed
-		// 				child.material.roughness = 0.15;  // Adjust as needed
-        //                 material.needsUpdate = true; // Ensure Three.js updates the material
-        //             });
-        //         } else {
-        //             // If the mesh has a single material
-        //             child.material.metalness = 0.015; // Adjust as needed
-		// 			child.material.roughness = 0.15;  // Adjust as needed
-        //             child.material.needsUpdate = true; // Ensure Three.js updates the material
-        //         }
-        //     }
-        // });
 
 
 		scene.add(soulReaver);
