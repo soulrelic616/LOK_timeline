@@ -505,9 +505,19 @@ ul#timeline {
                     display: block;
                     background-position: center;
                 }
+                &:after, .icon{
+                    flex-shrink: 0; /* Prevents it from shrinking */
+                }
             }
-            &.paradox a:after{
-                background-image: url('/images/chronoplast.png'); 
+            &.paradox {
+                .icon{
+                    width: 100px;
+                    height: 100px;
+                    display: block;
+                }
+                a:after{
+                    display: none;
+                }
             }
         }
 

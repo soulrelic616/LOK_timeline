@@ -114,9 +114,11 @@ function createTimeline(json) {
 		// Check if paradox is true
 		if (item.paradox) {
 			// If true, wrap the content in an <a> tag
+			var $icon = $("<div></div>").addClass('icon');
 			const $link = $("<a href=" + item.paradox + "></a>").html("<span>"+item.content+"</span>");
+			$link.append($icon);
 			$li.append($link);
-			$li.addClass("paradox")
+			$li.addClass("paradox");
 		} else if (item.travel) {
 			// If true, wrap the content in an <a> tag
 			const $link = $("<a href=" + item.travel + "></a>").html("<span>"+item.content+"</span>");
