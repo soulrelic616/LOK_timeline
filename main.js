@@ -114,12 +114,12 @@ function createTimeline(json) {
 		// Check if paradox is true
 		if (item.paradox) {
 			// If true, wrap the content in an <a> tag
-			const $link = $("<a href=" + item.paradox + "></a>").html(item.content);
+			const $link = $("<a href=" + item.paradox + "></a>").html("<span>"+item.content+"</span>");
 			$li.append($link);
 			$li.addClass("paradox")
 		} else if (item.travel) {
 			// If true, wrap the content in an <a> tag
-			const $link = $("<a href=" + item.travel + "></a>").html(item.content);
+			const $link = $("<a href=" + item.travel + "></a>").html("<span>"+item.content+"</span>");
 			$li.append($link);
 			$li.addClass("travel")
 		} else if (item.title) {
@@ -357,7 +357,7 @@ function startMusic() {
 	window.removeEventListener('click', startMusic); // Remove listener after first click
 }
 
-window.addEventListener('click', startMusic);
+//window.addEventListener('click', startMusic);
 
 // Toggle button handler to mute/unmute music
 toggleButton.addEventListener('click', () => {
@@ -596,7 +596,7 @@ pointLight.shadow.camera.far = 25;
 scene.add(pointLight);
 
 // Optional: Add a very dim ambient light for slight visibility in shadowed areas
-const ambientLight = new THREE.AmbientLight(0x000000, 0.05);
+const ambientLight = new THREE.AmbientLight(0x000000, 0.5);
 scene.add(ambientLight);
 
 // Helpers

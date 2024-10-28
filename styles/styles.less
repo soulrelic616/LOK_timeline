@@ -487,6 +487,30 @@ ul#timeline {
             }
         }
 
+        //anchor styles
+        &.travel, &.paradox {
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);;
+            padding: 20px 0;
+            a {
+                display: flex;
+                flex-flow: row;
+                gap: 20px;
+                align-items: center;
+                &:after{
+                    content: '';
+                    width: 80px;
+                    height: 80px;
+                    background-image: url('/images/chronoplast.png'); 
+                    display: block;
+                    background-position: center;
+                }
+            }
+            &.paradox a:after{
+                background-image: url('/images/chronoplast.png'); 
+            }
+        }
+
         &.show {
             opacity: 1;
             min-height: 100px;
