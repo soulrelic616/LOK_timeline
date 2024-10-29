@@ -32,6 +32,9 @@ import {
 	Howl
 } from 'howler';
 
+//Lottie
+import lottie from 'lottie-web';
+
 //test json data for references list
 var json;
 console.log('Hello');
@@ -81,7 +84,7 @@ function createTimeline(json) {
 	$milestones.empty();
 
 	// Iterate over each item in the JSON array
-	json.forEach(item => {
+	json.forEach((item, index) => {
 		// Create an <li> element
 		const $li = $("<li></li>").addClass(item.class); // Assign the classes
 
@@ -114,11 +117,14 @@ function createTimeline(json) {
 		// Check if paradox is true
 		if (item.paradox) {
 			// If true, wrap the content in an <a> tag
-			var $icon = $("<div></div>").addClass('icon');
-			const $link = $("<a href=" + item.paradox + "></a>").html("<span>"+item.content+"</span>");
+			var $icon = $("<div></div>").addClass('paradox-icon');
+			const $link = $("<a href=" + item.paradox + " data-anim="+ index +"></a>").html("<span>"+item.content+"</span>");
 			$link.append($icon);
 			$li.append($link);
 			$li.addClass("paradox");
+
+			//create icons
+			createIcon($icon, index);
 		} else if (item.travel) {
 			// If true, wrap the content in an <a> tag
 			const $link = $("<a href=" + item.travel + "></a>").html("<span>"+item.content+"</span>");
@@ -306,21 +312,36 @@ window.addEventListener('wheel', (event) => {
 	}
   }
   
-  function clickAnchors() {
-  	$('a[href^="#"]').click(function (event) {
-  		// Prevent the default action (navigating to the href)
-  		event.preventDefault();
+function clickAnchors() {
+	$('a[href^="#"]').on('click', function (event) {
+		// Prevent the default action (navigating to the href)
+		event.preventDefault();
 
-  		// Extract the destination from the href
-  		var thisHref = this.href.split('#');
-  		var destination = thisHref[1];
+		// Extract the destination from the href
+		var thisHref = this.href.split('#');
+		var destination = thisHref[1];
 
-  		scrollToEvent(destination);
+		// Check if an icon-paradox element is present
+		const $animationInstance = $(this).data('anim');
+		if ($animationInstance) {
+			// Play the existing Lottie animation on click
+			
+			if ($animationInstance) {
+				animatedIcons[$animationInstance].play();
+			}
+			// Delay the scrollToEvent by 1 second
+			setTimeout(() => {
+				scrollToEvent(destination);
+				$('.' + destination).addClass('active');
+			}, 1000);
+		} else {
+			// No icon-paradox element, proceed without delay
+			scrollToEvent(destination);
+			$('.' + destination).addClass('active');
+		}
+	});
+}
 
-		$('.'+destination).addClass('active');
-
-  	});
-  }
 
 $(".scrollarea").scroll(function () {
 
@@ -375,7 +396,20 @@ toggleButton.addEventListener('click', () => {
 	isPlaying = !isPlaying; // Toggle play/pause state
 });
 
-
+//Lottie
+var animatedIcons = [];
+function createIcon(container, index){
+	/* Lottie setup for each 'paradox-icon' */
+	animatedIcons[index] = lottie.loadAnimation({
+		container: container[0], // Pass the individual HTML element to render the animation
+		renderer: 'svg',
+		loop: false, // Set to true if you want it to loop
+		autoplay: false, // Start playing the animation immediately
+		path: './lottie/paradox.json' // Path to your animation JSON file
+	});
+	console.log(container);
+	console.log(index);
+}
 
 
 // class Smoke {
