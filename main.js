@@ -826,8 +826,6 @@ window.addEventListener('resize', onDivHeightChange);
 function animate() {
 	requestAnimationFrame(animate);
 
-	//moon.rotation.y += 0.0005;
-
 	//soulReaver.rotation.z += 0.01/Math.PI; //
 
 	// controls.update();
