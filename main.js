@@ -716,30 +716,47 @@ loadReaver();
 // Scroll Animation
 let previousScrollTop = 0; // Track the previous scroll position
 
+// Initialize target values and a smoothing factor
+let targetPositionY = 0;
+let targetRotationY = -44.43;
+const smoothingFactor = 0.1; // Adjust for smoother/slower animation
+
 function moveObjects() {
 	const scrollableDiv = document.querySelector('.scrollarea');
 	const scrollTop = scrollableDiv.scrollTop;
 	const maxScrollTop = scrollableDiv.scrollHeight - scrollableDiv.clientHeight;
 	const scrollPercentage = scrollTop / maxScrollTop; // From 0 at top to 1 at bottom
 
-	// Define the rotation range based on scroll position
-	const maxRotate = -48.82699999999991; // Rotation at the bottom
-	const minRotate = -44.43; // Target rotation at the top
+	// Define the rotation and position targets based on scroll
+	const maxRotate = -48.82699999999991;
+	const minRotate = -44.43;
+	const maxScroll = 17.04399999999998;
 
-	// Interpolate the rotation based on scroll percentage
-	const targetRotation = lerp(maxRotate, minRotate, 1 - scrollPercentage);
+	// Set target values for smooth animation
+	targetRotationY = lerp(maxRotate, minRotate, 1 - scrollPercentage);
+	targetPositionY = lerp(maxScroll, 0, 1 - scrollPercentage);
+	
+	// Begin animation frame loop if not already running
+	if (!animationFrameID) animateModel();
+}
 
-	// Apply rotation and position updates
-	if (soulReaver) {
-		soulReaver.rotation.y = targetRotation;
-		
-		// Position interpolation based on scroll
-		const maxScroll = 17.04399999999998; // Adjust as needed
-		soulReaver.position.y = lerp(maxScroll, 0, 1 - scrollPercentage); // Reaches 0 at the top
+// Animation function
+let animationFrameID;
+function animateModel() {
+	// Interpolate smoothly towards target values
+	soulReaver.rotation.y += (targetRotationY - soulReaver.rotation.y) * smoothingFactor;
+	soulReaver.position.y += (targetPositionY - soulReaver.position.y) * smoothingFactor;
+
+	// Check if close enough to target values to stop animating
+	if (Math.abs(soulReaver.rotation.y - targetRotationY) > 0.01 || 
+	    Math.abs(soulReaver.position.y - targetPositionY) > 0.01) {
+		// Continue animating if not yet close to target
+		animationFrameID = requestAnimationFrame(animateModel);
+	} else {
+		// Stop the animation once targets are reached
+		cancelAnimationFrame(animationFrameID);
+		animationFrameID = null;
 	}
-
-	// Update previous scroll position
-	previousScrollTop = scrollTop;
 }
 
 // Linear interpolation function
