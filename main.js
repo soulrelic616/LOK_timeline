@@ -720,6 +720,7 @@ let previousScrollTop = 0; // Track the previous scroll position
 let targetPositionY = 0;
 let targetRotationY = -44.43;
 const smoothingFactor = 0.1; // Adjust for smoother/slower animation
+let animationFrameID = null;   // ID for requestAnimationFrame
 
 function moveObjects() {
 	const scrollableDiv = document.querySelector('.scrollarea');
@@ -741,7 +742,7 @@ function moveObjects() {
 }
 
 // Animation function
-let animationFrameID;
+//let animationFrameID;
 function animateModel() {
 	// Interpolate smoothly towards target values
 	soulReaver.rotation.y += (targetRotationY - soulReaver.rotation.y) * smoothingFactor;
@@ -763,6 +764,63 @@ function animateModel() {
 function lerp(start, end, t) {
 	return start * (1 - t) + end * t;
 }
+
+// Update target values for the model based on the scroll position
+function updateModelTargets() {
+	const scrollableDiv = document.querySelector('.scrollarea');
+	const scrollTop = scrollableDiv.scrollTop;
+	const maxScrollTop = scrollableDiv.scrollHeight - scrollableDiv.clientHeight;
+	const scrollPercentage = scrollTop / maxScrollTop; // From 0 at top to 1 at bottom
+
+	// Define the rotation and position based on scroll percentage
+	const maxRotate = -48.83;
+	const minRotate = -44.43;
+	const maxScroll = 17.04;
+
+	// Set target rotation and position for smooth adjustment
+	targetRotationY = lerp(maxRotate, minRotate, 1 - scrollPercentage);
+	targetPositionY = lerp(maxScroll, 0, 1 - scrollPercentage);
+}
+
+// Smoothly animate model position and rotation to reach target values
+function animateModelToTarget() {
+	animationFrameID = requestAnimationFrame(() => {
+		if (soulReaver) {
+			// Smooth interpolation
+			soulReaver.rotation.y = lerp(soulReaver.rotation.y, targetRotationY, smoothingFactor);
+			soulReaver.position.y = lerp(soulReaver.position.y, targetPositionY, smoothingFactor);
+		}
+
+		// Check if close enough to target values to stop animating
+		if (
+			Math.abs(soulReaver.rotation.y - targetRotationY) > 0.01 ||
+			Math.abs(soulReaver.position.y - targetPositionY) > 0.01
+		) {
+			// Continue animating if not yet close to target
+			animateModelToTarget();
+		} else {
+			// Stop the animation once targets are reached
+			cancelAnimationFrame(animationFrameID);
+			animationFrameID = null;
+		}
+	});
+}
+
+// Scroll event listener to update model targets instantly on scroll
+//const scrollableDiv = document.querySelector('.scrollarea');
+scrollableDiv.addEventListener('scroll', () => {
+	updateModelTargets();
+	animateModelToTarget(); // Start or continue smooth animation to the new targets
+});
+
+// Adjust model smoothly after div height change
+function onDivHeightChange() {
+	updateModelTargets();
+	animateModelToTarget(); // Smooth adjustment to reach new target
+}
+
+// Resize listener or any other layout changes that may alter div height
+window.addEventListener('resize', onDivHeightChange);
 
 // Animation Loop
 function animate() {
