@@ -719,27 +719,32 @@ let previousScrollTop = 0; // Track the previous scroll position
 function moveObjects() {
 	const scrollableDiv = document.querySelector('.scrollarea');
 	const scrollTop = scrollableDiv.scrollTop;
+	const maxScrollTop = scrollableDiv.scrollHeight - scrollableDiv.clientHeight;
+	const scrollPercentage = scrollTop / maxScrollTop; // From 0 at top to 1 at bottom
 
-	//console.log("Scroll Top:", scrollTop); // Debugging: check scroll position
+	// Define the rotation range based on scroll position
+	const maxRotate = -48.82699999999991; // Rotation at the bottom
+	const minRotate = -44.43; // Target rotation at the top
 
-	// Calculate the change in scroll position
-	const scrollDelta = previousScrollTop - scrollTop;
+	// Interpolate the rotation based on scroll percentage
+	const targetRotation = lerp(maxRotate, minRotate, 1 - scrollPercentage);
 
-	// Rotate soulReaver if it's defined
+	// Apply rotation and position updates
 	if (soulReaver) {
-		//soulReaver.rotation.z += scrollDelta * 0.001;
-		soulReaver.rotation.y += scrollDelta * 0.001;
-		soulReaver.position.y -= scrollDelta * 0.004;
-		//console.log(soulReaver.rotation.y);
+		soulReaver.rotation.y = targetRotation;
+		
+		// Position interpolation based on scroll
+		const maxScroll = 17.04399999999998; // Adjust as needed
+		soulReaver.position.y = lerp(maxScroll, 0, 1 - scrollPercentage); // Reaches 0 at the top
 	}
 
-	// Update camera position and rotation based on scroll
-	// camera.position.z = scrollTop * -0.01;
-	// camera.position.x = scrollTop * -0.0002;
-	//camera.rotation.y = scrollTop * -0.0002;
-
-	// Update the previous scroll position
+	// Update previous scroll position
 	previousScrollTop = scrollTop;
+}
+
+// Linear interpolation function
+function lerp(start, end, t) {
+	return start * (1 - t) + end * t;
 }
 
 // Animation Loop
