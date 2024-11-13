@@ -225,7 +225,7 @@ function handleGames(elems) {
 				//console.log(e.progress.toFixed(3));
 				if (e.target.triggerElement().getAttribute("data-entry")) {
 					var gameEntry = e.target.triggerElement().getAttribute("data-entry");
-					//console.log(gameEntry);
+					console.log(gameEntry);
 					$('nav li').removeClass('active');
 					$('nav').find('#' + gameEntry).addClass('active');
 				} else {
