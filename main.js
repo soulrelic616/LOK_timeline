@@ -359,10 +359,10 @@ $(".scrollarea").scroll(function () {
 //Audio
 
 // Create a new Howl instance for the background music
-const MAX_VOLUME = 0.2; // Set maximum volume as 0.3
+const MAX_VOLUME = 0.2; // Set maximum volume as 0.2
 
 const backgroundMusic = new Howl({
-	src: ['/audio/Kain_Encounter.mp3'],
+	src: ['/audio/Anticipation.ogg'],
 	autoplay: false, // Set to false to prevent autoplay
 	loop: true,
 	volume: 0 // Start at 0 volume to apply fade-in on first play
