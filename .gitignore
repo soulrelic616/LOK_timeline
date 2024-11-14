@@ -36,3 +36,6 @@ coverage/
 # Build artifacts
 build/
 out/
+
+# Temporary files
+~$*.xlsx
