@@ -223,11 +223,18 @@ function handleGames(elems) {
 				//console.log(e)
 				//console.log(scrollDirection);
 				//console.log(e.progress.toFixed(3));
-				if (e.target.triggerElement().getAttribute("data-entry")) {
-					var gameEntry = e.target.triggerElement().getAttribute("data-entry");
+				var triggerElement = e.target.triggerElement();
+				if (triggerElement.getAttribute("data-entry")) {
+					var gameEntry = triggerElement.getAttribute("data-entry");
 					console.log(gameEntry);
 					$('nav li').removeClass('active');
 					$('nav').find('#' + gameEntry).addClass('active');
+
+					if(triggerElement.classList.contains('active')){
+						$('nav').find('#' + gameEntry).addClass('enabled');
+						$('nav').find('#' + gameEntry).removeClass('disabled');
+					}
+					
 				} else {
 					$('nav li').removeClass('active');
 				}
