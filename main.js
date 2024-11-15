@@ -66,6 +66,7 @@ function loadExcel() { // Removed the reference parameter
 			handleGames(revealElements);
 
 			clickAnchors();
+			enableGame();
 
 			return json;
 		})
@@ -95,6 +96,10 @@ function createTimeline(json) {
 		if (item.entry) {
 			$li.attr("data-entry", item.entry);
 			$li.addClass(item.entry);
+		}
+		if (item.enable) {
+			$li.attr("data-enable", item.enable);
+			$li.addClass(item.enable);
 		}
 
 		// Check if the item has an "image" entry
@@ -264,6 +269,14 @@ function drawLine() {
 	);
 }
 
+// Activate revealed games
+function enableGame(elem){
+	var enableGame = $(elem).parent('li').data('enable');
+	if (enableGame){
+		$('ul#games li#'+enableGame).removeClass('disabled');
+	}
+};
+
 // Select your scrollable div
 const scrollableDiv = document.querySelector('.scrollarea');
 let scrollPosition = 0;
@@ -346,7 +359,10 @@ function clickAnchors() {
 			scrollToEvent(destination);
 			$('.' + destination).addClass('active');
 		}
+
+		enableGame(this);
 	});
+	
 }
 
 
