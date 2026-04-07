@@ -130,7 +130,7 @@ h2 {
     font-size: 30px;
 }
 
-h3 {
+h3, .h3Style {
     font-family: 'Cinzel', serif !important;
     font-size: 25px;
 }
@@ -530,15 +530,18 @@ ul#timeline {
 
         //anchor styles
         &.travel, &.paradox {
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);;
-            padding: 20px 0;
-            &:not(.active){
-                //padding: 0;
+            // border-top: 1px solid rgba(255, 255, 255, 0.3);
+            // border-bottom: 1px solid rgba(255, 255, 255, 0.3);;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: #0000008f;
+            padding: 20px;
+            border-radius: 10px;
+            &:not(.active)[id]{
+                padding: 0;
             }
             a {
                 display: flex;
-                flex-flow: row;
+                flex-flow: column;
                 gap: 20px;
                 align-items: center;
                 justify-content: space-between;
@@ -552,6 +555,10 @@ ul#timeline {
                 }
                 &:after, .paradox-icon{
                     flex-shrink: 0; /* Prevents it from shrinking */
+                }
+                &:before{
+                    content: attr(data-before);
+                    .h3Style;
                 }
             }
             &.paradox {

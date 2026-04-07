@@ -119,11 +119,14 @@ function createTimeline(json) {
 			$li.prepend($imageContainer);
 		}
 
+		let eventTitle;
 		// Check if paradox is true
 		if (item.paradox) {
 			// If true, wrap the content in an <a> tag
+			eventTitle = "Paradox Event";
 			var $icon = $("<div></div>").addClass('paradox-icon');
 			const $link = $("<a href=" + item.paradox + " data-anim="+ index +"></a>").html("<span>"+item.content+"</span>");
+			$link.attr('data-before', eventTitle);
 			$link.append($icon);
 			$li.append($link);
 			$li.addClass("paradox");
@@ -132,7 +135,9 @@ function createTimeline(json) {
 			createIcon($icon, index);
 		} else if (item.travel) {
 			// If true, wrap the content in an <a> tag
+			eventTitle = "Time Travel";
 			const $link = $("<a href=" + item.travel + "></a>").html("<span>"+item.content+"</span>");
+			$link.attr('data-before', eventTitle);
 			$li.append($link);
 			$li.addClass("travel")
 		} else if (item.title) {
@@ -378,6 +383,8 @@ function clickAnchors() {
 		console.warn(destination);
 
 		enableGame(this);
+		$('a[href^="#"]').removeClass('active');
+		$(this).addClass('active');
 	});
 	
 }
