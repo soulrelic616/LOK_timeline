@@ -111,7 +111,7 @@ function createTimeline(json) {
 
 			// Loop over each image and create an <img> element
 			images.forEach(imgSrc => {
-				const $img = $("<img>").attr("src", imgSrc.trim());
+				const $img = $("<img>").attr("src", './images/timeline/' + imgSrc.trim());
 				$imageContainer.append($img);
 			});
 
@@ -270,12 +270,23 @@ function drawLine() {
 }
 
 // Activate revealed games
-function enableGame(elem){
-	var enableGame = $(elem).parent('li').data('enable');
-	if (enableGame){
-		$('ul#games li#'+enableGame).removeClass('disabled');
-	}
-};
+function enableGame(elem) {
+    var enableData = $(elem).parent('li').data('enable');
+
+    if (enableData) {
+        // Convert to string (to handle potential numbers) and split by comma
+        // .split(',') creates an array even if there is only one item
+        var gamesToEnable = String(enableData).split(',');
+
+        gamesToEnable.forEach(function(gameId) {
+            // .trim() removes any accidental spaces around the commas
+            var cleanId = gameId.trim();
+            if (cleanId) {
+                $('ul#games li#' + cleanId).removeClass('disabled');
+            }
+        });
+    }
+}
 
 // Select your scrollable div
 const scrollableDiv = document.querySelector('.scrollarea');

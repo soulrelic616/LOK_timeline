@@ -426,6 +426,30 @@ ul#timeline {
         opacity: 0;
         .ease_fast;
 
+        //Colour coding
+        // &.BO{
+        //     color: #ff0303;
+        // }
+        // &.SR{
+        //     color: #2dbf01;
+        // }
+        // &.SR2{
+        //     color: #00f7ff;
+        // }
+        &:first-of-type{
+            &.SR2{
+                color: red!important;
+            }
+        }
+
+        img{
+            display: block;
+            margin: 0 auto;
+            max-width: 400px;
+            margin-bottom: 50px;
+            height: auto;
+        }
+
         &:first-child{
             margin-top: 30px;
         }
@@ -436,6 +460,7 @@ ul#timeline {
         }
 
         h2 {
+            text-align: center;
             &:before {
                 content: '‹';
                 margin-right: 10px;
@@ -508,6 +533,9 @@ ul#timeline {
             border-top: 1px solid rgba(255, 255, 255, 0.3);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);;
             padding: 20px 0;
+            &:not(.active){
+                //padding: 0;
+            }
             a {
                 display: flex;
                 flex-flow: row;
