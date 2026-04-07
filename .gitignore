@@ -24,6 +24,7 @@ yarn-error.log*
 .DS_Store
 *.swp
 *.swo
+*.zip
 
 # Temporary files
 tmp/

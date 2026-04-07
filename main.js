@@ -340,6 +340,7 @@ function clickAnchors() {
 		// Extract the destination from the href
 		var thisHref = this.href.split('#');
 		var destination = thisHref[1];
+		let targetElems = $('.' + destination);
 
 		// Check if an icon-paradox element is present
 		const $animationInstance = $(this).data('anim');
@@ -352,13 +353,18 @@ function clickAnchors() {
 			// Delay the scrollToEvent by 1 second
 			setTimeout(() => {
 				scrollToEvent(destination);
-				$('.' + destination).addClass('active');
+				targetElems.addClass('active');
+				console.warn(targetElems);
+				if(targetElems.hasClass('undoneEvent')){
+					targetElems.filter('.undoneEvent').removeClass('active');
+				}
 			}, 1000);
 		} else {
 			// No icon-paradox element, proceed without delay
 			scrollToEvent(destination);
-			$('.' + destination).addClass('active');
+			targetElems.addClass('active');
 		}
+		console.warn(destination);
 
 		enableGame(this);
 	});
@@ -385,7 +391,7 @@ $(".scrollarea").scroll(function () {
 const MAX_VOLUME = 0.2; // Set maximum volume as 0.2
 
 const backgroundMusic = new Howl({
-	src: ['/audio/Anticipation.ogg'],
+	src: ['./audio/Anticipation.ogg'],
 	autoplay: false, // Set to false to prevent autoplay
 	loop: true,
 	volume: 0 // Start at 0 volume to apply fade-in on first play
@@ -670,14 +676,13 @@ const loader = new GLTFLoader(loadingManager);
 let soulReaver;
 
 
-//Look here: https://stackoverflow.com/questions/63347147/gltf-exported-from-blender-with-metallic-texture-and-no-roughness-texture-is-loa
 function loadReaver() {
-	loader.load('/model/reaver-3.gltf', function (gltf) {
+	loader.load('./model/reaver-3.gltf', function (gltf) {
 		soulReaver = gltf.scene;
 
 		// Load the texture using TextureLoader
 		const textureLoader = new THREE.TextureLoader();
-		const texture = textureLoader.load('/model/combined_texture.png'); // Adjust the path as necessary
+		const texture = textureLoader.load('./model/combined_texture.png'); // Adjust the path as necessary
 
 		//Set the initial opacity of the model's material to 0
 		soulReaver.traverse((child) => {
