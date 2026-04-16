@@ -210,50 +210,56 @@ function revealElems(elems) {
 	}
 }
 
+// Global flag to prevent ScrollMagic triggers during programmatic scrolls
+var isAutoScrolling = false;
+
 function handleGames(elems) {
-	for (var i = 0; i < elems.length; i++) {
-		// create a scene for each element
-		new ScrollMagic.Scene({
-				triggerElement: elems[i], // y value not modified, so we can use element as trigger as well
-				offset: 0, // start a little later
-				triggerHook: 0.30,
-			})
-			//.setClassToggle(elems[i], "visible") // add class toggle
-			// .addIndicators({
-			//     name: "gameEvent " + (i + 1),
-			//     indent: 150,
-			//     colorTrigger: "#FFF"
-			// }) // add indicators (requires plugin)
-			.addTo(controller)
-			.on("enter", function (e) {
+    for (var i = 0; i < elems.length; i++) {
+        // create a scene for each element
+        new ScrollMagic.Scene({
+                triggerElement: elems[i], // y value not modified, so we can use element as trigger as well
+                offset: 0, // start a little later
+                triggerHook: 0.30,
+            })
+            //.setClassToggle(elems[i], "visible") // add class toggle
+            // .addIndicators({
+            //     name: "gameEvent " + (i + 1),
+            //     indent: 150,
+            //     colorTrigger: "#FFF"
+            // }) // add indicators (requires plugin)
+            .addTo(controller)
+            .on("enter", function (e) {
 
-			})
-			.on("progress", function (e) {
-				var scrollDirection = e.target.controller().info("scrollDirection");
-				//console.log(e)
-				//console.log(scrollDirection);
-				//console.log(e.progress.toFixed(3));
-				var triggerElement = e.target.triggerElement();
-				if (triggerElement.getAttribute("data-entry")) {
-					var gameEntry = triggerElement.getAttribute("data-entry");
-					console.log(gameEntry);
-					$('nav li').removeClass('active');
-					$('nav').find('#' + gameEntry).addClass('active');
+            })
+            .on("progress", function (e) {
+                // Exit if we are auto-scrolling from a click
+                if (isAutoScrolling) return;
 
-					if(triggerElement.classList.contains('active')){
-						$('nav').find('#' + gameEntry).addClass('enabled');
-						$('nav').find('#' + gameEntry).removeClass('disabled');
-					}
-					
-				} else {
-					$('nav li').removeClass('active');
-				}
-			})
-			.on("update", function (e) {
-				//console.log(e.target.controller().info("scrollDirection"));
-				//console.log(e);
-			})
-	}
+                var scrollDirection = e.target.controller().info("scrollDirection");
+                //console.log(e)
+                //console.log(scrollDirection);
+                //console.log(e.progress.toFixed(3));
+                var triggerElement = e.target.triggerElement();
+                if (triggerElement.getAttribute("data-entry")) {
+                    var gameEntry = triggerElement.getAttribute("data-entry");
+                    console.log(gameEntry);
+                    $('nav li').removeClass('active');
+                    $('nav').find('#' + gameEntry).addClass('active');
+
+                    if(triggerElement.classList.contains('active')){
+                        $('nav').find('#' + gameEntry).addClass('enabled');
+                        $('nav').find('#' + gameEntry).removeClass('disabled');
+                    }
+                    
+                } else {
+                    $('nav li').removeClass('active');
+                }
+            })
+            .on("update", function (e) {
+                //console.log(e.target.controller().info("scrollDirection"));
+                //console.log(e);
+            })
+    }
 }
 
 function drawLine() {
@@ -326,7 +332,7 @@ window.addEventListener('wheel', (event) => {
   
   // Scroll to Event
   function scrollToEvent(destination) {
-	const offset = 100; // Adjust this value as needed
+	const offset = 90; // Adjust this value as needed
 	const target = $("#" + destination);
 	
 	if (target.length) {
@@ -349,44 +355,57 @@ window.addEventListener('wheel', (event) => {
   }
   
 function clickAnchors() {
-	$('a[href^="#"]').on('click', function (event) {
-		// Prevent the default action (navigating to the href)
-		event.preventDefault();
+    $('a[href^="#"]').on('click', function (event) {
+        // Prevent the default action (navigating to the href)
+        event.preventDefault();
 
-		// Extract the destination from the href
-		var thisHref = this.href.split('#');
-		var destination = thisHref[1];
-		let targetElems = $('.' + destination);
+        // Enable auto-scroll flag
+        isAutoScrolling = true;
 
-		// Check if an icon-paradox element is present
-		const $animationInstance = $(this).data('anim');
-		if ($animationInstance) {
-			// Play the existing Lottie animation on click
-			
-			if ($animationInstance) {
-				animatedIcons[$animationInstance].play();
-			}
-			// Delay the scrollToEvent by 1 second
-			setTimeout(() => {
-				scrollToEvent(destination);
-				targetElems.addClass('active');
-				console.warn(targetElems);
-				if(targetElems.hasClass('undoneEvent')){
-					targetElems.filter('.undoneEvent').removeClass('active');
-				}
-			}, 1000);
-		} else {
-			// No icon-paradox element, proceed without delay
-			scrollToEvent(destination);
-			targetElems.addClass('active');
-		}
-		console.warn(destination);
+        // Extract the destination from the href
+        var thisHref = this.href.split('#');
+        var destination = thisHref[1];
+        let targetElems = $('.' + destination);
 
-		enableGame(this);
-		$('a[href^="#"]').removeClass('active');
-		$(this).addClass('active');
-	});
-	
+        // Check if an icon-paradox element is present
+        const $animationInstance = $(this).data('anim');
+        if ($animationInstance) {
+            // Play the existing Lottie animation on click
+            
+            if ($animationInstance) {
+                animatedIcons[$animationInstance].play();
+                $(this).addClass('triggered');
+            }
+            // Delay the scrollToEvent by 1 second
+            setTimeout(() => {
+                scrollToEvent(destination);
+                targetElems.addClass('active');
+                console.warn(targetElems);
+                
+                // Hide targetElems that also have class undoneEvent
+                if(targetElems.hasClass('undoneEvent')){
+                    targetElems.filter('.undoneEvent').hide().removeClass('active');
+                }
+
+                // Reset flag after scroll duration (approx 800ms)
+                setTimeout(() => { isAutoScrolling = false; }, 800);
+            }, 1000);
+        } else {
+            // No icon-paradox element, proceed without delay
+            scrollToEvent(destination);
+            targetElems.addClass('active');
+
+            // Reset flag after scroll duration
+            setTimeout(() => { isAutoScrolling = false; }, 800);
+        }
+        console.warn(destination);
+
+        enableGame(this);
+        //$('a[href^="#"]').removeClass('active');
+        $('nav li').removeClass('active');
+        $(this).parent('li').addClass('active');
+    });
+    
 }
 
 

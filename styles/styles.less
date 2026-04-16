@@ -562,6 +562,15 @@ ul#timeline {
                 }
             }
             &.paradox {
+                a:before, a span{
+                    opacity: 0.5;
+                    .ease_slow;
+                }
+                a.triggered{
+                    span, &:before{
+                        opacity: 1;
+                    }
+                }
                 .paradox-icon{
                     width: 80px;
                     height: 80px;
